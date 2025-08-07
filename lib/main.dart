@@ -64,14 +64,15 @@ class MyApp extends StatelessWidget {
               theme: themeProvider.themeData,
 
               routes: {
-               '/': (context) =>SignUpScreen() ,//LandingPage(),//SignUpScreen(),
+               '/': (context) =>LandingPage(),//SignUpScreen(),
                  '/home': (context) => const MainScreenWrapper(),//const NewHomeScreen(),//NewHomeScreen(),
                 '/analytics': (context) => const ExpenseAnalysisScreen(),
                 '/profile': (context) => const ProfileInfoScreen(),
                 '/settings': (context) => const SettingsScreen(),
-                //'/signup':(context) => const SignUpScreen(),
+                '/signup':(context) => SignUpScreen(),
                 '/personal':(context) =>  const PersonalInformation(),
                // 'addTransaction': (context) =>  AddTransactionScreen(),
+                '/signin':(context) => const SignInScreen(),
 
               },
             );

@@ -51,7 +51,7 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
 
           // Foreground: Scrollable content
           Padding(
-            padding: EdgeInsets.only(top: mediaHeight * 0.4),
+            padding: EdgeInsets.only(top: mediaHeight * 0.48),
             child: SingleChildScrollView(
 
               child: Column(

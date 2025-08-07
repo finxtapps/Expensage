@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:uiproject/Widgets/home_Screen_Widegets/time_filter.dart';
+import 'package:provider/provider.dart';
+
 import '../../theme/theme_provider.dart';
-import '../ExpenseScreenWidget/time_filter_dropdown.dart';
 
 class TransactionList extends StatefulWidget {
   const TransactionList({super.key});
@@ -59,6 +59,8 @@ class _TransactionListState extends State<TransactionList> {
   String _selectedFilter = 'Lifetime';
   DateTime? _selectedDate;
   List<Map<String, dynamic>> _filteredTransactions = [];
+
+  final GlobalKey _filterIconKey = GlobalKey();
 
   @override
   void initState() {
@@ -139,6 +141,74 @@ class _TransactionListState extends State<TransactionList> {
     });
   }
 
+  void _showFilterDrawer() {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final List<String> options = ['Lifetime', 'Weekly', 'Monthly', 'Yearly', 'Date'];
+
+    final RenderBox renderBox = _filterIconKey.currentContext?.findRenderObject() as RenderBox;
+    final Offset position = renderBox.localToGlobal(Offset.zero);
+
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Filter',
+      barrierColor: Colors.transparent,
+      pageBuilder: (_, __, ___) {
+        return Stack(
+          children: [
+            Positioned(
+              top: position.dy + renderBox.size.height + 5,
+              right: MediaQuery.of(context).size.width - position.dx - renderBox.size.width,
+              child: Material(
+                elevation: 6,
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  constraints: const BoxConstraints(maxHeight: 280),
+                  decoration: BoxDecoration(
+                    color: isDarkMode ? Colors.grey[900] : Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Column(
+                      children: options.map((option) {
+                        return CheckboxListTile(
+                          dense: true,
+                          visualDensity: VisualDensity.compact,
+                          controlAffinity: ListTileControlAffinity.leading,
+                          value: _selectedFilter == option,
+                          title: Text(
+                            option,
+                            style: TextStyle(
+                              color: isDarkMode ? Colors.white : Colors.black,
+                              fontSize: 14,
+                            ),
+                          ),
+                          onChanged: (_) {
+                            Navigator.pop(context);
+                            _filterTransactions(option);
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+      transitionBuilder: (_, anim, __, child) {
+        return FadeTransition(
+          opacity: anim,
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 150),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -146,13 +216,15 @@ class _TransactionListState extends State<TransactionList> {
 
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, _) {
-        final secondaryColor =  themeProvider.themeData.colorScheme.secondary.withOpacity(0.1);
+        final secondaryColor = themeProvider.themeData.colorScheme.secondary.withOpacity(0.1);
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
           child: Container(
             decoration: BoxDecoration(
-              color: isDarkMode? Theme.of(context).scaffoldBackgroundColor: Colors.white.withOpacity(0.15),
+              color: isDarkMode
+                  ? Theme.of(context).scaffoldBackgroundColor
+                  : Colors.white.withOpacity(0.15),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,145 +233,127 @@ class _TransactionListState extends State<TransactionList> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Text(
+                    Text(
                       'Transaction History',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color:isDarkMode? Colors.white: Colors.black87,
+                        color: isDarkMode ? Colors.white : Colors.black87,
                       ),
                     ),
-                    Text(
-                      'See all',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, right: 12),
+                      child: GestureDetector(
+                        onTap: _showFilterDrawer,
+                        child: SizedBox(
+                          child: FaIcon(
+                            FontAwesomeIcons.filter,
+                            key: _filterIconKey,
+                            color: isDarkMode ? Colors.orange : Colors.black87,
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
 
-                // Container
+                // Transaction list container
                 Container(
                   decoration: BoxDecoration(
-                    color: isDarkMode? Theme.of(context).colorScheme.primary: Colors.white.withOpacity(0.15),
+                    color: isDarkMode
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.white.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: Colors.grey.shade500,
                       width: 1,
                     ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Filter row
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: const [
-                                Text("Filter", style: TextStyle(fontSize: 16)),
-                                SizedBox(width: 10),
-                                Icon(Icons.filter_list_sharp),
-                              ],
-                            ),
-                            TransactionTimeFilterDropdown(
-                              selectedOption: _selectedFilter,
-                              onChanged: _filterTransactions,
-                            ),
-                          ],
-                        ),
-                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    child: _filteredTransactions.isEmpty
+                        ? const Center(child: Text('No transactions found.'))
+                        : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _filteredTransactions.length,
+                      itemBuilder: (context, index) {
+                        final transaction = _filteredTransactions[index];
 
-                      // Transaction list
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        child: _filteredTransactions.isEmpty
-                            ? const Center(child: Text('No transactions found.'))
-                            : ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: _filteredTransactions.length,
-                          itemBuilder: (context, index) {
-                            final transaction = _filteredTransactions[index];
-
-                            return Container(
-                              height: screenWidth * 0.15,
-                              margin: const EdgeInsets.only(bottom: 12),
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                              decoration: BoxDecoration(
-                                color:isDarkMode? Theme.of(context).scaffoldBackgroundColor: secondaryColor,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: Colors.grey[200]!,
-                                  width: 1,
+                        return Container(
+                          height: screenWidth * 0.15,
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: isDarkMode
+                                ? Theme.of(context).scaffoldBackgroundColor
+                                : secondaryColor,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.grey[200]!,
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              // Date
+                              SizedBox(
+                                width: screenWidth * 0.12,
+                                child: Text(
+                                  DateFormat('MMM\nd').format(transaction['date']),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: screenWidth * 0.028,
+                                    fontWeight: FontWeight.w500,
+                                    color: isDarkMode ? Colors.white : Colors.grey[600],
+                                  ),
                                 ),
                               ),
-                              child: Row(
-                                children: [
-                                  // Date
-                                  SizedBox(
-                                    width: screenWidth * 0.12,
-                                    child: Text(
-                                      DateFormat('MMM\nd').format(transaction['date']),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.028,
-                                        fontWeight: FontWeight.w500,
-                                        color:isDarkMode? Colors.white: Colors.grey[600],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: screenWidth * 0.04),
+                              SizedBox(width: screenWidth * 0.04),
 
-                                  // Icon
-                                  Container(
-                                    width: screenWidth * 0.1,
-                                    height: screenWidth * 0.1,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(40),
-                                    ),
-                                    child: Icon(
-                                      transaction['icon'] as IconData,
-                                      color: transaction['iconColor'] as Color,
-                                      size: screenWidth * 0.05,
-                                    ),
-                                  ),
-                                  SizedBox(width: screenWidth * 0.04),
-
-                                  // Company
-                                  Expanded(
-                                    child: Text(
-                                      transaction['company'],
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.042,
-                                        fontWeight: FontWeight.w500,
-                                        color:isDarkMode? Colors.white: Colors.black87,
-                                      ),
-                                    ),
-                                  ),
-
-                                  // Amount
-                                  Text(
-                                    '\$${transaction['amount'].toStringAsFixed(2)}',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.035,
-                                      fontWeight: FontWeight.w600,
-                                      color: transaction['amountColor'],
-                                    ),
-                                  ),
-                                ],
+                              // Icon
+                              Container(
+                                width: screenWidth * 0.1,
+                                height: screenWidth * 0.1,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                child: Icon(
+                                  transaction['icon'] as IconData,
+                                  color: transaction['iconColor'] as Color,
+                                  size: screenWidth * 0.05,
+                                ),
                               ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                              SizedBox(width: screenWidth * 0.04),
+
+                              // Company
+                              Expanded(
+                                child: Text(
+                                  transaction['company'],
+                                  style: TextStyle(
+                                    fontSize: screenWidth * 0.042,
+                                    fontWeight: FontWeight.w500,
+                                    color: isDarkMode ? Colors.white : Colors.black87,
+                                  ),
+                                ),
+                              ),
+
+                              // Amount
+                              Text(
+                                '\$${transaction['amount'].toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  fontWeight: FontWeight.w600,
+                                  color: transaction['amountColor'],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -310,6 +364,7 @@ class _TransactionListState extends State<TransactionList> {
     );
   }
 }
+
 
 
 

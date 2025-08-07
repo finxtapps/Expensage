@@ -34,10 +34,11 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                           Stack(
                             children: [
                               ProfileHeaderSection(onBackPressed: () => Navigator.pop(context)),
+
                               Padding(
                                 padding: EdgeInsets.only(
 
-                                    top:MediaQuery.of(context).size.height * 0.25,
+                                    top:MediaQuery.of(context).size.height * 0.265,
                                     left: MediaQuery.of(context).size.width * 0.09,
                                     right: MediaQuery.of(context).size.width * 0.09,
                                 ),

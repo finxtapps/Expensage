@@ -10,7 +10,7 @@ class ProfileHeaderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
-      height:MediaQuery.of(context).size.height * 0.3,/////////////////////
+      height:MediaQuery.of(context).size.height * 0.35,/////////////////////
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(40),
