@@ -65,13 +65,13 @@ class MyApp extends StatelessWidget {
               theme: themeProvider.themeData,
 
               routes: {
-               '/': (context) =>SignUpScreen() ,//LandingPage(),//SignUpScreen(),
-                 '/home': (context) => const MainScreenWrapper(),//const NewHomeScreen(),//NewHomeScreen(),
-                '/analytics': (context) => const ExpenseAnalysisScreen(),
-                '/profile': (context) => const ProfileInfoScreen(),
-                '/settings': (context) => const SettingsScreen(),
-                //'/signup':(context) => const SignUpScreen(),
-                '/personal':(context) =>  const PersonalInformation(),
+               '/': (context) =>LandingPage(),//SignUpScreen(),
+                 '/home': (context) =>  MainScreenWrapper(),//const NewHomeScreen(),//NewHomeScreen(),
+                '/analytics': (context) =>  ExpenseAnalysisScreen(),
+                '/profile': (context) =>  ProfileInfoScreen(),
+                '/settings': (context) =>  SettingsScreen(),
+                '/signup':(context) =>  SignUpScreen(),
+                '/personal':(context) =>   PersonalInformation(),
                // 'addTransaction': (context) =>  AddTransactionScreen(),
 
               },
