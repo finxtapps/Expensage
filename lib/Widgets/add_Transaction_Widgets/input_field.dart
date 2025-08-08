@@ -17,9 +17,9 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding:  EdgeInsets.symmetric(horizontal: 8.0),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 56), // min height fix
+        constraints:  BoxConstraints(minHeight: 56), // min height fix
         child: Row(
           children: [
             Icon(icon, size: 22, color: Colors.grey[700]),

@@ -22,6 +22,7 @@ class FormSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 35.0),
         child: Container(
@@ -35,20 +36,20 @@ class FormSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               InputField(
                 icon: Icons.receipt_long_outlined,
                 controller: itemController,
                 hintText: 'Enter the item',
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
               InputField(
                 icon: Icons.attach_money,
                 controller: amountController,
                 hintText: 'Enter the Amount',
                 keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: 70),
+              const SizedBox(height: 50),
               const Text(
                 'Add invoice',
                 style: TextStyle(

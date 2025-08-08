@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 class AnimatedHomePage extends StatefulWidget {
   const AnimatedHomePage({super.key});
 

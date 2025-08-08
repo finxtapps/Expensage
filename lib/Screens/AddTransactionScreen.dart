@@ -1,15 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../Widgets/add_Transaction_Widgets/form_section.dart';
@@ -110,7 +98,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
           children: [
             HeaderSection(onBackPressed: widget.onBackPressed),
             Padding(
-              padding: const EdgeInsets.only(top: 240.0),
+              padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height*.25 ),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * .6,
                 child: FormSection(
