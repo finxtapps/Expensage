@@ -48,14 +48,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               : HeaderColor.darkGradient,
         ),
 
-
-
-
-
         child: SafeArea(
           child: Column(
             children: [
-               HeaderSection(),
+              const HeaderSection(),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Text(
@@ -68,32 +64,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               Expanded(
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0,),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.06,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.3),
-                          ),
-
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: SignUpForm(
-                        formKey: _formKey,
-                        fullNameController: _fullNameController,
-                        emailController: _emailController,
-                        passwordController: _passwordController,
-                        phoneController: _phoneController,
-                      ),
-                    ),
-                  ],
+                child: SignUpForm(
+                  formKey: _formKey,
+                  fullNameController: _fullNameController,
+                  emailController: _emailController,
+                  passwordController: _passwordController,
+                  phoneController: _phoneController,
                 ),
               ),
             ],

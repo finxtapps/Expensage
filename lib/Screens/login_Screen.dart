@@ -64,33 +64,27 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
               ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 30.0,),
+              //   child: Container(
+              //     height: MediaQuery.of(context).size.height * 0.06,
+              //     decoration: BoxDecoration(
+              //       color: Colors.white.withOpacity(0.4),
+              //       borderRadius: BorderRadius.circular(20),
+              //       border: Border.all(
+              //         color: Colors.white.withOpacity(0.3),
+              //       ),
+              //
+              //     ),
+              //   ),
+              // ),
               Expanded(
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0,),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.06,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.3),
-                          ),
+                child: SignInForm(
+                  formKey: _formKey,
 
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: SignInForm(
-                        formKey: _formKey,
+                  emailController: _emailController,
+                  passwordController: _passwordController,
 
-                        emailController: _emailController,
-                        passwordController: _passwordController,
-
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ],

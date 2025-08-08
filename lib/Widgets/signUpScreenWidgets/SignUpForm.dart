@@ -24,6 +24,7 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       margin: const EdgeInsets.only(top: 10),
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -38,38 +39,38 @@ class _SignUpFormState extends State<SignUpForm> {
           key: widget.formKey,
           child: Column(
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               _buildInputField(
                 controller: widget.fullNameController,
                 hintText: 'Full name',
                 icon: Icons.person_outline,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               _buildInputField(
                 controller: widget.emailController,
                 hintText: 'Email',
                 icon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 10),
               _buildInputField(
                 controller: widget.passwordController,
                 hintText: 'Password',
                 icon: Icons.lock_outline,
                 obscureText: true,
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 10),
               _buildInputField(
                 controller: widget.phoneController,
                 hintText: 'Phone number',
                 icon: Icons.phone_outlined,
                 keyboardType: TextInputType.phone,
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
               _buildSignUpButton(context),
-              const SizedBox(height: 28),
+              const SizedBox(height: 25),
               _buildDivider(),
-              const SizedBox(height: 28),
+              const SizedBox(height: 25),
               _buildSocialButtons(context),
             ],
           ),
@@ -85,47 +86,71 @@ class _SignUpFormState extends State<SignUpForm> {
     bool obscureText = false,
     TextInputType keyboardType = TextInputType.text,
   }) {
-    return Container(
-      height: MediaQuery.of(context).size.width*.12,
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: Colors.grey[400]!,
-          width: 1.5,
-        ),
-      ),
-      child: TextFormField(
-        controller: controller,
-        obscureText: obscureText,
-        keyboardType: keyboardType,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(
-            color: Colors.grey[600],
-            fontSize: 12,
-          ),
-          prefixIcon: Icon(
-            icon,
-            color: Colors.grey[600],
-            size: 22,
-          ),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 18,
-          ),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'This field is required';
-          }
-          if (hintText == 'Email' && !value.contains('@')) {
-            return 'Please enter a valid email';
-          }
-          return null;
-        },
-      ),
+    String? errorText;
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.width * .12,
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: Colors.grey[400]!,
+                  width: 1.5,
+                ),
+              ),
+              child: TextFormField(
+                controller: controller,
+                obscureText: obscureText,
+                keyboardType: keyboardType,
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  hintStyle: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 12,
+                  ),
+                  prefixIcon: Icon(
+                    icon,
+                    color: Colors.grey[600],
+                    size: 22,
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 14, // Fixed position
+                  ),
+                  errorStyle: const TextStyle(height: 0), // Hide default error text
+                ),
+                validator: (value) {
+                  String? message;
+                  if (value == null || value.isEmpty) {
+                    message = 'This field is required';
+                  }
+                  if (hintText == 'Email' &&
+                      value != null &&
+                      !value.contains('@')) {
+                    message = 'Please enter a valid email';
+                  }
+                  setState(() => errorText = message);
+                  return null; // Prevent default error space
+                },
+              ),
+            ),
+            if (errorText != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
+                  errorText!,
+                  style:  TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
+            ]
+          ],
+        );
+      },
     );
   }
 
@@ -198,7 +223,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
         Expanded(
           child: _buildSocialButton(
-            "assets/icon _Images/icons8-google-480.png",
+            "assets/icon_Images/icons8-google-480.png",
             'Google',
             Colors.white,
             Colors.black87,
@@ -215,7 +240,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
         Expanded(
           child: _buildSocialButton(
-    "assets/icon _Images/icons8-linkedin-480.png",
+    "assets/icon_Images/icons8-linkedin-480.png",
             // Container(
             //   height: 30,
             //   width: 30,
