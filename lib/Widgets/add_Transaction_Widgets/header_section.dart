@@ -70,7 +70,9 @@ class HeaderSection extends StatelessWidget {
                       child: Icon(Icons.arrow_back, color: Colors.white, size: 28),
                     ),
                   ),
-
+                   SizedBox(
+                     height: MediaQuery.of(context).size.height*.05,
+                   ),
                    Center(
                     child: Text(
                       'Add transaction',
