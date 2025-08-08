@@ -24,7 +24,7 @@ class FormSection extends StatelessWidget {
     return SingleChildScrollView(
       physics: NeverScrollableScrollPhysics(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 35.0),
+        padding: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),

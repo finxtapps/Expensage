@@ -100,7 +100,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             Padding(
               padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height*.25 ),
               child: SizedBox(
-                height: MediaQuery.of(context).size.height * .6,
+                height: MediaQuery.of(context).size.height * .8,
                 child: FormSection(
                   itemController: _itemController,
                   amountController: _amountController,

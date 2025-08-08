@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../Widgets/signInScreen_Widgets/SignInForm.dart';
 import '../Widgets/signInScreen_Widgets/SignIn_HeaderSection.dart';
 import '../Widgets/signUpScreenWidgets/HeaderSection.dart';
 import '../Widgets/signUpScreenWidgets/SignUpForm.dart';
+import '../theme/header_Color.dart';
+import '../theme/theme_provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -29,17 +32,22 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.secondary,
-            ],
-          ),
+          gradient: themeProvider.currentTheme == 'Pink'
+              ? HeaderColor.pinkGradient
+              : themeProvider.currentTheme == 'Green'
+              ? HeaderColor.greenGradient
+              : themeProvider.currentTheme == 'Blue'
+              ? HeaderColor.blueGradient
+              : themeProvider.currentTheme == 'Orange'
+              ? HeaderColor.orangeGradient
+              : HeaderColor.darkGradient,
         ),
         child: SafeArea(
           child: Column(
@@ -57,12 +65,32 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
               ),
               Expanded(
-                child: SignInForm(
-                  formKey: _formKey,
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0,),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.3),
+                          ),
 
-                  emailController: _emailController,
-                  passwordController: _passwordController,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: SignInForm(
+                        formKey: _formKey,
 
+                        emailController: _emailController,
+                        passwordController: _passwordController,
+
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

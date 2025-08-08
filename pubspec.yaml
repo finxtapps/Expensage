@@ -80,6 +80,7 @@ flutter:
   assets:
     - assets/icon Images/
     - assets/landing Image/
+    - assets/header-Image/headerImage.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

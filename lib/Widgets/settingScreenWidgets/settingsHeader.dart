@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../theme/header_Color.dart';
+import '../../theme/theme_provider.dart';
 
 class SettingsHeader extends StatelessWidget {
   const SettingsHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Container(
       decoration: BoxDecoration(
-       color:isDarkMode? Theme.of(context).colorScheme.primary :  Theme.of(context).colorScheme.secondary,
+        gradient:
+        themeProvider.currentTheme == 'Pink'
+            ? HeaderColor.pinkGradient
+            : themeProvider.currentTheme == 'Green'
+            ? HeaderColor.greenGradient
+            : themeProvider.currentTheme == 'Blue'
+            ? HeaderColor.blueGradient
+            : themeProvider.currentTheme == 'Orange'
+            ? HeaderColor.orangeGradient
+            : HeaderColor.darkGradient,
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 20),
           child: Row(
             children: [
               GestureDetector(

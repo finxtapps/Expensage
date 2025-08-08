@@ -25,34 +25,68 @@ class HeaderSection extends StatelessWidget {
           bottomRight: Radius.circular(80),
         ),
       ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: onBackPressed,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.arrow_back, color: Colors.white, size: 28),
-                ),
+      child: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.35,top:30),
+            child: SizedBox(
+              child: Image.asset("assets/header-Image/headerImage.png",
+                height: 100,
+                width: 100,
+                fit: BoxFit.cover,
               ),
-              const SizedBox(height: 20),
-              const Center(
-                child: Text(
-                  'Add transaction',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          Padding(
+            padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.48),
+            child: SizedBox(
+              child: Image.asset("assets/header-Image/headerImage.png",
+                height: 100,
+                width: 100,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Padding(
+            padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.8,top: 80),
+            child: SizedBox(
+              child: Image.asset("assets/header-Image/headerImage.png",
+                height: 100,
+                width: 100,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: onBackPressed,
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.arrow_back, color: Colors.white, size: 28),
+                    ),
+                  ),
+
+                   Center(
+                    child: Text(
+                      'Add transaction',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 32,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

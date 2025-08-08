@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uiproject/Widgets/profile_Info_Screen_Widgets/profile_image_section.dart';
+
+import '../../theme/header_Color.dart';
+import '../../theme/theme_provider.dart';
 
 class ProfileHeaderSection extends StatelessWidget {
   final VoidCallback onBackPressed;
@@ -9,6 +13,9 @@ class ProfileHeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Container(
       height:MediaQuery.of(context).size.height * 0.35,/////////////////////
       decoration: BoxDecoration(
@@ -16,21 +23,16 @@ class ProfileHeaderSection extends StatelessWidget {
           bottomLeft: Radius.circular(40),
           bottomRight: Radius.circular(40),
         ),
-        gradient:isDarkMode? LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Theme.of(context).colorScheme.primary, // First color
-            Theme.of(context).colorScheme.primary, // Second color
-          ],
-        ):LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Theme.of(context).colorScheme.primary.withOpacity(.7), // First color
-            Theme.of(context).colorScheme.secondary, // Second color
-          ],
-        ),
+        gradient:
+        themeProvider.currentTheme == 'Pink'
+      ? HeaderColor.pinkGradient
+          : themeProvider.currentTheme == 'Green'
+      ? HeaderColor.greenGradient
+          : themeProvider.currentTheme == 'Blue'
+      ? HeaderColor.blueGradient
+          : themeProvider.currentTheme == 'Orange'
+      ? HeaderColor.orangeGradient
+          : HeaderColor.darkGradient,
       ),
       child: SafeArea(
         child: Padding(
