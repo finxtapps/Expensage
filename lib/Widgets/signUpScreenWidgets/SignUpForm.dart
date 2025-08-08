@@ -198,7 +198,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
         Expanded(
           child: _buildSocialButton(
-            "assets/icon Images/icons8-google-480.png",
+            "assets/icon _Images/icons8-google-480.png",
             'Google',
             Colors.white,
             Colors.black87,
@@ -215,7 +215,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
         Expanded(
           child: _buildSocialButton(
-    "assets/icon Images/icons8-linkedin-480.png",
+    "assets/icon _Images/icons8-linkedin-480.png",
             // Container(
             //   height: 30,
             //   width: 30,

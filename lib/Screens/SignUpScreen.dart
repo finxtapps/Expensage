@@ -55,7 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              const HeaderSection(),
+               HeaderSection(),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Text(
