@@ -15,6 +15,7 @@ import 'Screens/login_Screen.dart';
 import 'Screens/personal_information.dart';
 import 'Screens/profile_Information.dart';
 import 'Screens/setting_Screen.dart';
+import 'Screens/wrapper.dart';
 
 
 
@@ -64,15 +65,14 @@ class MyApp extends StatelessWidget {
               theme: themeProvider.themeData,
 
               routes: {
-               '/': (context) =>LandingPage(),//SignUpScreen(),
+               '/': (context) =>SignUpScreen() ,//LandingPage(),//SignUpScreen(),
                  '/home': (context) => const MainScreenWrapper(),//const NewHomeScreen(),//NewHomeScreen(),
                 '/analytics': (context) => const ExpenseAnalysisScreen(),
                 '/profile': (context) => const ProfileInfoScreen(),
                 '/settings': (context) => const SettingsScreen(),
-                '/signup':(context) => SignUpScreen(),
+                //'/signup':(context) => const SignUpScreen(),
                 '/personal':(context) =>  const PersonalInformation(),
                // 'addTransaction': (context) =>  AddTransactionScreen(),
-                '/signin':(context) => const SignInScreen(),
 
               },
             );

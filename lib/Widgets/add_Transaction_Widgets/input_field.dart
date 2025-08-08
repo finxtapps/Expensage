@@ -4,66 +4,46 @@ class InputField extends StatelessWidget {
   final IconData icon;
   final TextEditingController controller;
   final String hintText;
-  final TextInputType? keyboardType;
+  final TextInputType keyboardType;
 
   const InputField({
-    super.key,
+    Key? key,
     required this.icon,
     required this.controller,
     required this.hintText,
-    this.keyboardType,
-  });
+    this.keyboardType = TextInputType.text,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withOpacity(.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(
-            icon,
-            color: Colors.black,
-            size: 36,
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded( // Use Expanded instead of Flexible
-          child: TextField(
-            controller: controller,
-            keyboardType: keyboardType,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 56), // min height fix
+        child: Row(
+          children: [
+            Icon(icon, size: 22, color: Colors.grey[700]),
+            const SizedBox(width: 12),
+            Expanded( // <-- yeh important hai
+              child: TextField(
+                controller: controller,
+                keyboardType: keyboardType,
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  hintStyle: TextStyle(color: Colors.grey[500]),
+                  border: InputBorder.none,
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+              ),
             ),
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey[300]!),
-              ),
-              focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFEF5350), width: 2),
-              ),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey[300]!),
-              ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 12),
-            ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
+
 
 
 

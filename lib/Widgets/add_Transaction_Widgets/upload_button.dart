@@ -16,8 +16,8 @@ class UploadButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.7, // Adjust width as needed
-        height: 56,
+        width: double.infinity, // full available width
+        constraints: const BoxConstraints(minHeight: 56), // min height fixed
         decoration: BoxDecoration(
           border: Border.all(
             color: selectedImage != null ? const Color(0xFFEF5350) : Colors.grey[400]!,
@@ -25,7 +25,9 @@ class UploadButton extends StatelessWidget {
             width: selectedImage != null ? 2 : 1.5,
           ),
           borderRadius: BorderRadius.circular(8),
-          color: selectedImage != null ? const Color(0XFFD44D5C).withOpacity(0.05) : Colors.transparent,
+          color: selectedImage != null
+              ? const Color(0XFFD44D5C).withOpacity(0.05)
+              : Colors.transparent,
         ),
         child: Material(
           color: Colors.transparent,
@@ -37,24 +39,29 @@ class UploadButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Icon(
-                    selectedImage != null ? Icons.check_circle_outline : Icons.upload_outlined,
-                    color: selectedImage != null ? const Color(0xFFEF5350) : Colors.black87,
-                    size: 20,
-                  ),
+                Icon(
+                  selectedImage != null
+                      ? Icons.check_circle_outline
+                      : Icons.upload_outlined,
+                  color: selectedImage != null
+                      ? const Color(0xFFEF5350)
+                      : Colors.black87,
+                  size: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                const SizedBox(width: 12),
+                Flexible(
                   child: Text(
-                    selectedImage != null ? 'Invoice selected' : 'Upload invoice',
+                    selectedImage != null
+                        ? 'Invoice selected'
+                        : 'Upload invoice',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: selectedImage != null ? const Color(0xFFEF5350) : Colors.black87,
+                      color: selectedImage != null
+                          ? const Color(0xFFEF5350)
+                          : Colors.black87,
                     ),
-                    overflow: TextOverflow.ellipsis, // Handle overflow
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
@@ -64,6 +71,7 @@ class UploadButton extends StatelessWidget {
       ),
     );
   }
+
 }
 
 
