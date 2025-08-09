@@ -12,6 +12,7 @@ import 'Screens/Landing_page.dart';
 import 'Screens/expense_analysis_screen.dart';
 
 import 'Screens/login_Screen.dart';
+import 'Screens/notification_Screen.dart';
 import 'Screens/personal_information.dart';
 import 'Screens/profile_Information.dart';
 import 'Screens/setting_Screen.dart';
@@ -60,18 +61,19 @@ class MyApp extends StatelessWidget {
           builder: (context, child) {
             return MaterialApp(
 
-
               debugShowCheckedModeBanner: false,
               theme: themeProvider.themeData,
 
               routes: {
                '/': (context) =>LandingPage(),//SignUpScreen(),
-                 '/home': (context) =>  MainScreenWrapper(),//const NewHomeScreen(),//NewHomeScreen(),
                 '/analytics': (context) =>  ExpenseAnalysisScreen(),
+                '/home': (context) =>  MainScreenWrapper(),
+                '/notification':(context)=> NotificationScreen(),
+                '/personal':(context) =>   PersonalInformation(),
                 '/profile': (context) =>  ProfileInfoScreen(),
                 '/settings': (context) =>  SettingsScreen(),
+                '/signin':(context)=> SignInScreen(),
                 '/signup':(context) =>  SignUpScreen(),
-                '/personal':(context) =>   PersonalInformation(),
                // 'addTransaction': (context) =>  AddTransactionScreen(),
 
               },

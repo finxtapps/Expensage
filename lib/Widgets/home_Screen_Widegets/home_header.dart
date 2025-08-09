@@ -71,16 +71,21 @@ class _HomeHeaderState extends State<HomeHeader> {
                     ),
                   ),
                   // Notification Icon
-                  Container(
-                    padding:  EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color:isDarkMode? Color(0xFFD44D5C): Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(
-                      Icons.notifications_outlined,
-                      color: Colors.white,
-                      size: 24,
+                  InkWell(
+                    onTap: (){
+                      Navigator.pushNamed(context, '/notification');
+                    },
+                    child: Container(
+                      padding:  EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color:isDarkMode? Color(0xFFD44D5C): Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.notifications_outlined,
+                        color: Colors.white,
+                        size: 24,
+                      ),
                     ),
                   ),
                 ],
