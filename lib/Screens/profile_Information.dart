@@ -55,14 +55,19 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                                       child: Column(
                                         children: [
                                           const SizedBox(height: 30),
-                                          MenuItem(
-                                            icon: Icons.person,
-                                            title: 'Personal Information',
-                                            onTap: () {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(content: Text('Personal Information tapped')),
-                                              );
+                                          InkWell(
+                                            onTap: (){
+                                              Navigator.pushNamed(context, '/personal');
                                             },
+                                            child: MenuItem(
+                                              icon: Icons.person,
+                                              title: 'Personal Information',
+                                              onTap: () {
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  const SnackBar(content: Text('Personal Information tapped')),
+                                                );
+                                              },
+                                            ),
                                           ),
                                           const SizedBox(height: 20),
                                           MenuItem(

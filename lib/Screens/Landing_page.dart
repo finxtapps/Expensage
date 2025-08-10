@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../theme/header_Color.dart';
+import '../theme/theme_provider.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -11,7 +15,11 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    final colorScheme = Theme.of(context).colorScheme;
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
+      backgroundColor: isDarkMode ? Theme.of(context).colorScheme.primary :Theme.of(context).scaffoldBackgroundColor,
       body: Stack(
         children: [
           Container(
@@ -42,6 +50,7 @@ class _LandingPageState extends State<LandingPage> {
                     Image.asset(
                       'assets/landing-Image/landingImage.png',
                       height: MediaQuery.of(context).size.height * .55,
+                      width: double.infinity,
 
                       fit: BoxFit.fill,
                     ),
@@ -52,7 +61,7 @@ class _LandingPageState extends State<LandingPage> {
                           Text(
                             "Spend Smarter",
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
+                              color:isDarkMode?Color(0xFFD44D5C): Theme.of(context).colorScheme.secondary,
                               fontSize: 40,
                               fontWeight: FontWeight.bold,
                             ),
@@ -60,7 +69,7 @@ class _LandingPageState extends State<LandingPage> {
                           Text(
                             "Save More",
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
+                              color: isDarkMode?Color(0xFFD44D5C):Theme.of(context).colorScheme.secondary,
                               fontSize: 38,
                               fontWeight: FontWeight.bold,
                             ),
@@ -82,7 +91,7 @@ class _LandingPageState extends State<LandingPage> {
                             width: MediaQuery.of(context).size.width * .5,
 
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
+                              gradient:isDarkMode?HeaderColor.pinkGradient: LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
@@ -115,7 +124,7 @@ class _LandingPageState extends State<LandingPage> {
                         Text(
                           "Already have an account?",
                           style: TextStyle(
-                            color: Colors.black54,
+                            color:isDarkMode?Colors.white: Colors.black54,
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
@@ -128,7 +137,7 @@ class _LandingPageState extends State<LandingPage> {
                           child: Text(
                             "Log in",
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
+                              color:isDarkMode? Color(0xFFD44D5C): Theme.of(context).colorScheme.secondary,
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                             ),

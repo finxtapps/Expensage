@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uiproject/Screens/SignUpScreen.dart';
+import 'package:uiproject/Screens/splash_Screen.dart';
 import 'package:uiproject/Widgets/home_Screen_Widegets/new_BottomBar.dart' hide AddTransactionScreen;
 import 'package:uiproject/theme/theme_provider.dart';
 
@@ -65,7 +66,8 @@ class MyApp extends StatelessWidget {
               theme: themeProvider.themeData,
 
               routes: {
-               '/': (context) =>LandingPage(),//SignUpScreen(),
+               '/': (context) =>SplashScreen(),
+                '/landingpage' :(context)=>  LandingPage(),//SignUpScreen(),
                 '/analytics': (context) =>  ExpenseAnalysisScreen(),
                 '/home': (context) =>  MainScreenWrapper(),
                 '/notification':(context)=> NotificationScreen(),
