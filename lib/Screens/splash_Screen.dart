@@ -26,22 +26,24 @@ Navigator.pushReplacementNamed(context, '/landingpage');
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return Container(
-      height: double.infinity,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        gradient:  themeProvider.currentTheme == 'Pink'
-            ? HeaderColor.pinkGradient
-            : themeProvider.currentTheme == 'Green'
-            ? HeaderColor.greenGradient
-            : themeProvider.currentTheme == 'Blue'
-            ? HeaderColor.blueGradient
-            : themeProvider.currentTheme == 'Orange'
-            ? HeaderColor.orangeGradient
-            : HeaderColor.darkGradient,
-      ),
-      child: Center(
-        child: Text("ExpenSage",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+    return Scaffold(
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient:  themeProvider.currentTheme == 'Pink'
+              ? HeaderColor.pinkGradient
+              : themeProvider.currentTheme == 'Green'
+              ? HeaderColor.greenGradient
+              : themeProvider.currentTheme == 'Blue'
+              ? HeaderColor.blueGradient
+              : themeProvider.currentTheme == 'Orange'
+              ? HeaderColor.orangeGradient
+              : HeaderColor.darkGradient,
+        ),
+        child: Center(
+          child: Text("ExpenSage",style: TextStyle(fontSize: MediaQuery.of(context).size.width*.12,fontWeight: FontWeight.bold),),
+        ),
       ),
     );
   }
