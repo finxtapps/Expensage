@@ -26,18 +26,23 @@ class SettingsContent extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              _buildSettingItem(
-                context,
-                icon: Icons.attach_money,
-                title: 'Currency',
-                hasArrow: true,
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Currency settings would open here'),
-                    ),
-                  );
+              InkWell(
+                onTap: (){
+                  Navigator.pushNamed(context, '/currency_select');
                 },
+                child: _buildSettingItem(
+                  context,
+                  icon: Icons.attach_money,
+                  title: 'Currency',
+                  hasArrow: true,
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Currency settings would open here'),
+                      ),
+                    );
+                  },
+                ),
               ),
 
              ////////////////////////////////////

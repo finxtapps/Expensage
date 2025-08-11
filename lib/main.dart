@@ -10,10 +10,13 @@ import 'package:uiproject/theme/theme_provider.dart';
 
 
 import 'Screens/Landing_page.dart';
+import 'Screens/create_Pin_Screen.dart';
+import 'Screens/currency_select_Screen.dart';
 import 'Screens/expense_analysis_screen.dart';
 
 import 'Screens/login_Screen.dart';
 import 'Screens/notification_Screen.dart';
+import 'Screens/set_pin_and_fingerprint_Screen.dart';
 import 'Screens/personal_information.dart';
 import 'Screens/profile_Information.dart';
 import 'Screens/setting_Screen.dart';
@@ -66,17 +69,20 @@ class MyApp extends StatelessWidget {
               theme: themeProvider.themeData,
 
               routes: {
-               '/': (context) =>SplashScreen(),
-                '/landingpage' :(context)=>  LandingPage(),//SignUpScreen(),
-                '/analytics': (context) =>  ExpenseAnalysisScreen(),
-                '/home': (context) =>  MainScreenWrapper(),
-                '/notification':(context)=> NotificationScreen(),
-                '/personal':(context) =>   PersonalInformation(),
-                '/profile': (context) =>  ProfileInfoScreen(),
-                '/settings': (context) =>  SettingsScreen(),
-                '/signin':(context)=> SignInScreen(),
-                '/signup':(context) =>  SignUpScreen(),
-               // 'addTransaction': (context) =>  AddTransactionScreen(),
+               '/': (context) => SplashScreen(),//1
+                '/landingpage' :(context)=>  LandingPage(),//SignUpScreen(),//2
+                '/analytics': (context) =>  ExpenseAnalysisScreen(),//3
+                '/home': (context) =>  MainScreenWrapper(),//4
+                '/notification':(context)=> NotificationScreen(),//5
+                '/personal':(context) =>   PersonalInformation(),//6
+                '/profile': (context) =>  ProfileInfoScreen(),//7
+                '/settings': (context) =>  SettingsScreen(),//8
+                '/signin':(context)=> SignInScreen(),//9
+                '/signup':(context) =>  SignUpScreen(),//10
+                '/currency_select': (context) =>  CurrencySelectScreen(),//11
+                '/pin': (context) =>  MpinScreen(),//12
+                '/set_pin_and_fingerprint': (context) =>  SetPinAndFingerprintScreen(),//13'
+               // 'addTransaction': (context) =>  AddTransactionScreen(),//14
 
               },
             );

@@ -50,43 +50,51 @@ class _AddButtonState extends State<AddButton> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 0,
-      left: MediaQuery.of(context).size.width / 2 - 35,
+      bottom: -1,
+      left: MediaQuery.of(context).size.width / 2 - 45,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(40),
-            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 8)],
-          ),
+        padding:  EdgeInsets.only(bottom: 16.0),
+        child: Material(
+          color: Colors.transparent,
+
           child: Padding(
-            padding: const EdgeInsets.all(5.5),
+            padding:  EdgeInsets.symmetric(horizontal: 7.0),
             child: Container(
-              key: _buttonKey,
-              height: 60,
-              width: 60,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(40),
-                boxShadow: const [
-                  BoxShadow(color: Colors.black12, blurRadius: 8),
-                ],
+                boxShadow:  [BoxShadow(color: Colors.black12, blurRadius: 8)],
               ),
-              child: Material(
-                color: Colors.transparent,
-                shape: const CircleBorder(),
-                child: InkWell(
-                  customBorder: const CircleBorder(),
-                  onTap: _openPopup,
-                  child: Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      shape: BoxShape.circle,
+              child: Padding(
+                padding:  EdgeInsets.all(5.5),
+                child: Container(
+                  key: _buttonKey,
+                  height: 60,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(40),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black12, blurRadius: 8),
+                    ],
+                  ),
+                  child: Material(
+
+                    color: Colors.transparent,
+                    shape:  CircleBorder(),
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: _openPopup,
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.add, size: 60, color: Colors.white),
+                      ),
                     ),
-                    child: const Icon(Icons.add, size: 60, color: Colors.white),
                   ),
                 ),
               ),

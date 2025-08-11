@@ -31,8 +31,8 @@ class HeaderColor {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFD44D5C),
-      Color(0xFF6E2830),
+      Color(0xFF4D91D4),
+      Color(0xFF284B6E),
     ],
   );
 
