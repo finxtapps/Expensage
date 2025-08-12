@@ -275,6 +275,7 @@ class _TransactionListState extends State<TransactionList> {
                     child: _filteredTransactions.isEmpty
                         ? const Center(child: Text('No transactions found.'))
                         : ListView.builder(
+                      padding: EdgeInsets.zero,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: _filteredTransactions.length,

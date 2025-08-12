@@ -4,9 +4,14 @@ import 'package:provider/provider.dart';
 import '../theme/header_Color.dart';
 import '../theme/theme_provider.dart';
 
-class SetPinAndFingerprintScreen extends StatelessWidget {
-  const SetPinAndFingerprintScreen({super.key});
+class ScanFingerprintScreen extends StatefulWidget {
+  const ScanFingerprintScreen({super.key});
 
+  @override
+  State<ScanFingerprintScreen> createState() => _ScanFingerprintScreenState();
+}
+
+class _ScanFingerprintScreenState extends State<ScanFingerprintScreen> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -43,7 +48,7 @@ class SetPinAndFingerprintScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 20),
                     const Text(
-                      'Password',
+                      'Scan your fingerprint',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 28,
@@ -56,63 +61,10 @@ class SetPinAndFingerprintScreen extends StatelessWidget {
               ),
             ),
           ),
-          InkWell(
-            onTap: (){
-              Navigator.pushNamed(context, '/pin');
-            },
-            child: _buildContentBox(context,
-              title: 'PIN',
-              subtitle: 'Set four digit pin',
-              icon: Icons.arrow_forward_ios,
-            ),
-          ),
+          
 
-          InkWell(
-            onTap: (){
-              Navigator.pushNamed(context, '/fingerprint');
-            },
-            child: _buildContentBox(context,
-                title: "Fingerprint",
-                subtitle: "Scan and save your fingerprint",
-                icon: Icons.arrow_forward_ios),
-          ),
         ],
       ),
     );
-  }
-  Widget _buildContentBox(BuildContext context, {
-
-    required String title,
-    required String subtitle,
-    required IconData icon,
-  }){
-    return Padding(
-      padding:  EdgeInsets.symmetric(
-          horizontal:MediaQuery.of(context).size.width*.1,
-          vertical:MediaQuery.of(context).size.height*.04
-      ),
-      child: Column(
-        children: [
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title,style: TextStyle(color: Colors.black,fontSize: 32,fontWeight: FontWeight.bold),),
-                    Text(subtitle,style: TextStyle(color: Colors.grey,fontSize: 16,fontWeight: FontWeight.bold),),
-                  ],
-                ),
-                Icon(icon,color: Colors.grey,),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-
   }
 }
-
-

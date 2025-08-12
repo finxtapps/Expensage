@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-
 class TimeFilterDropdown extends StatefulWidget {
-  const TimeFilterDropdown({super.key});
+  final String selectedValue; // incoming selected filter
+  final void Function(String)? onFilterChanged; // optional callback
+
+  const TimeFilterDropdown({
+    Key? key,
+    required this.selectedValue,
+    this.onFilterChanged,
+  }) : super(key: key);
 
   @override
   _TimeFilterDropdownState createState() => _TimeFilterDropdownState();
 }
 
 class _TimeFilterDropdownState extends State<TimeFilterDropdown> {
-  String _selectedOption = 'Weekly'; // Default selection
   final List<String> _options = ['Weekly', 'Monthly', 'Yearly'];
 
   @override
@@ -19,14 +23,13 @@ class _TimeFilterDropdownState extends State<TimeFilterDropdown> {
     return Container(
       height: MediaQuery.of(context).size.width * 0.06,
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 2.h),
-
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6.r),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          value: _selectedOption,
+          value: widget.selectedValue,
           icon: Icon(Icons.keyboard_arrow_down, size: 16.sp, color: Colors.black87),
           items: _options.map((String value) {
             return DropdownMenuItem<String>(
@@ -38,11 +41,9 @@ class _TimeFilterDropdownState extends State<TimeFilterDropdown> {
             );
           }).toList(),
           onChanged: (String? newValue) {
-            setState(() {
-              _selectedOption = newValue!;
-            });
-            // Custom logic on change
-            print("Selected: $_selectedOption");
+            if (newValue != null && widget.onFilterChanged != null) {
+              widget.onFilterChanged!(newValue);
+            }
           },
         ),
       ),

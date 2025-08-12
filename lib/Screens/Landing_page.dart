@@ -24,10 +24,10 @@ class _LandingPageState extends State<LandingPage> {
         children: [
           Container(
             child: isDarkMode
-                ? Image.asset('assets/landing-Image/landingBgDark.png',
+                ? Image.asset('assets/images/landing-Image/landingBgDark.png',
                 height: MediaQuery.of(context).size.height * .65
             )
-                : Image.asset('assets/landing-Image/LandingBgBright.png',
+                : Image.asset('assets/images/landing-Image/LandingBgBright.png',
                 height: MediaQuery.of(context).size.height * .65),
             // color: Colors.cyanAccent.withOpacity(.15),
           ),
@@ -48,7 +48,7 @@ class _LandingPageState extends State<LandingPage> {
                 child: Column(
                   children: [
                     Image.asset(
-                      'assets/landing-Image/landingImage.png',
+                      'assets/images/landing-Image/landingImage.png',
                       height: MediaQuery.of(context).size.height * .55,
                       width: double.infinity,
 

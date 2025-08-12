@@ -17,7 +17,7 @@ class TransactionTimeFilterDropdown extends StatelessWidget {
     final List<String> options = ['Lifetime', 'Weekly', 'Monthly', 'Yearly', 'Date'];
 
     return Container(
-      height: MediaQuery.of(context).size.width * 0.06,
+      height: MediaQuery.of(context).size.width * 0.07,
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 2.h),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey.shade500, width: 1.w),

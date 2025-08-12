@@ -10,12 +10,14 @@ import 'package:uiproject/theme/theme_provider.dart';
 
 
 import 'Screens/Landing_page.dart';
+import 'Screens/Select_Location_Screen.dart';
 import 'Screens/create_Pin_Screen.dart';
 import 'Screens/currency_select_Screen.dart';
 import 'Screens/expense_analysis_screen.dart';
 
 import 'Screens/login_Screen.dart';
 import 'Screens/notification_Screen.dart';
+import 'Screens/scan_Fingerprint_screen.dart';
 import 'Screens/set_pin_and_fingerprint_Screen.dart';
 import 'Screens/personal_information.dart';
 import 'Screens/profile_Information.dart';
@@ -73,7 +75,7 @@ class MyApp extends StatelessWidget {
                 '/landingpage' :(context)=>  LandingPage(),//SignUpScreen(),//2
                 '/analytics': (context) =>  ExpenseAnalysisScreen(),//3
                 '/home': (context) =>  MainScreenWrapper(),//4
-                '/notification':(context)=> NotificationScreen(),//5
+                '/notification':(context)=> NotificationsScreen(),//5
                 '/personal':(context) =>   PersonalInformation(),//6
                 '/profile': (context) =>  ProfileInfoScreen(),//7
                 '/settings': (context) =>  SettingsScreen(),//8
@@ -82,7 +84,9 @@ class MyApp extends StatelessWidget {
                 '/currency_select': (context) =>  CurrencySelectScreen(),//11
                 '/pin': (context) =>  MpinScreen(),//12
                 '/set_pin_and_fingerprint': (context) =>  SetPinAndFingerprintScreen(),//13'
-               // 'addTransaction': (context) =>  AddTransactionScreen(),//14
+                '/location': (context) =>  LocationScreen(),//15'
+                '/fingerprint': (context) =>  ScanFingerprintScreen(),//17
+               // 'addTransaction': (context) =>  AddTransactionScreen(),//18
 
               },
             );

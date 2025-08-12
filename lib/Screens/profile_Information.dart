@@ -34,6 +34,9 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                           Stack(
                             children: [
                               ProfileHeaderSection(onBackPressed: () => Navigator.pop(context)),
+                              SizedBox(
+                                height: 5,
+                              ),
 
                               Padding(
                                 padding: EdgeInsets.only(
@@ -43,7 +46,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                                     right: MediaQuery.of(context).size.width * 0.09,
                                 ),
                                 child: SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.5,
+                                  height: MediaQuery.of(context).size.height * 0.45,
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: isDarkMode? Colors.black:Colors.white,

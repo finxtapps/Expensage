@@ -26,24 +26,17 @@ class SettingsContent extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              InkWell(
-                onTap: (){
-                  Navigator.pushNamed(context, '/currency_select');
-                },
-                child: _buildSettingItem(
+               _buildSettingItem(
                   context,
                   icon: Icons.attach_money,
                   title: 'Currency',
                   hasArrow: true,
+
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Currency settings would open here'),
-                      ),
-                    );
+                    Navigator.pushNamed(context, '/currency_select');
                   },
                 ),
-              ),
+
 
              ////////////////////////////////////
 
@@ -70,11 +63,7 @@ class SettingsContent extends StatelessWidget {
                 title: 'Password',
                 hasArrow: true,
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Password settings would open here'),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/set_pin_and_fingerprint');
                 },
               ),
               const SizedBox(height: 15),
@@ -92,18 +81,19 @@ class SettingsContent extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 15),
-              _buildSettingItem(
-                context,
-                icon: Icons.location_on_outlined,
-                title: 'Location',
-                hasArrow: true,
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Location settings would open here'),
-                    ),
-                  );
+              InkWell(
+                onTap: (){
+                  Navigator.pushNamed(context, '/location');
                 },
+                child: _buildSettingItem(
+                  context,
+                  icon: Icons.location_on_outlined,
+                  title: 'Location',
+                  hasArrow: true,
+                  onTap: () {
+                    Navigator.pushNamed(context, '/location');
+                  },
+                ),
               ),
               const SizedBox(height: 15),
               _buildSettingItem(

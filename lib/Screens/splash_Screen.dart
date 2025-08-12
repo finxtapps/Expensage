@@ -42,7 +42,7 @@ Navigator.pushReplacementNamed(context, '/landingpage');
               : HeaderColor.darkGradient,
         ),
         child: Center(
-          child: Text("ExpenSage",style: TextStyle(fontSize: MediaQuery.of(context).size.width*.12,fontWeight: FontWeight.bold),),
+          child: Text("ExpenSage",style: TextStyle(color:Colors.white,fontSize: MediaQuery.of(context).size.width*.12,fontWeight: FontWeight.bold),),
         ),
       ),
     );
