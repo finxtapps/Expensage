@@ -38,17 +38,11 @@ class ProfileHeaderSection extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 2),
           child: Column(
+           // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
                 children: [
-                  GestureDetector(
-                    onTap: onBackPressed,
-                    child: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
+
                   const Expanded(
                     child: Text(
                       'Profile',
@@ -60,7 +54,7 @@ class ProfileHeaderSection extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 24), // Balance the back button
+                 // const SizedBox(width: 24), // Balance the back button
                 ],
               ),
               const SizedBox(height: 10),

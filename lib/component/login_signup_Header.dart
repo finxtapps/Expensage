@@ -1,11 +1,19 @@
-
 import 'package:flutter/material.dart';
 
-class SignInHeaderSection extends StatelessWidget {
-  const SignInHeaderSection({super.key});
+class LoginSignupHeader extends StatefulWidget {
+  final String btn_title;
+  const LoginSignupHeader({super.key,
+  required this.btn_title
+  });
 
   @override
+  State<LoginSignupHeader> createState() => _LoginSignupHeaderState();
+}
+
+class _LoginSignupHeaderState extends State<LoginSignupHeader> {
+  @override
   Widget build(BuildContext context) {
+    String description=widget.btn_title=="Sign In"?"Already have an account?":"Don't have an account?";
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
@@ -21,8 +29,8 @@ class SignInHeaderSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
 
-              const Text(
-                "Don't have an account?",
+               Text(
+                description,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 12,
@@ -38,8 +46,8 @@ class SignInHeaderSection extends StatelessWidget {
                     color: Colors.white.withOpacity(0.3),
                   ),
                 ),
-                child: const Text(
-                  'Sign Up',
+                child:  Text(
+                  widget.btn_title,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -54,3 +62,4 @@ class SignInHeaderSection extends StatelessWidget {
     );
   }
 }
+

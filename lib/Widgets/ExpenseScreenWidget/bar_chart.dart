@@ -1,8 +1,9 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../home_Screen_Widegets/time_filter.dart';
- // make sure path is correct
+import '../../component/time_filter.dart';
 
 class BarChartWidget extends StatefulWidget {
   const BarChartWidget({Key? key}) : super(key: key);
@@ -11,16 +12,18 @@ class BarChartWidget extends StatefulWidget {
   State<BarChartWidget> createState() => _BarChartWidgetState();
 }
 
-class _BarChartWidgetState extends State<BarChartWidget> {
+class _BarChartWidgetState extends State<BarChartWidget>
+    with SingleTickerProviderStateMixin {
   String selectedFilter = 'Weekly';
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
-  // Example data for different filters
   final Map<String, List<double>> filterData = {
     'Lifetime': [3000, 2500, 2800, 3500, 4000, 3700, 3900],
     'Weekly': [1500, 2000, 1200, 2500, 1800, 3200, 3600],
     'Monthly': [2000, 2300, 2100, 2400, 2600, 2800, 3000],
     'Yearly': [2500, 2700, 3000, 3200, 3300, 3500, 3700],
-    'Date': [1000, 1100, 900, 1200, 800, 1500, 1300],
+    // 'Date': [1000, 1100, 900, 1200, 800, 1500, 1300],
   };
 
   BarChartGroupData _buildBarGroup(int x, double y) {
@@ -38,156 +41,406 @@ class _BarChartWidgetState extends State<BarChartWidget> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+    );
+
+    // Trigger animation when widget appears
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _controller.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? Theme.of(context).colorScheme.primary
-            : Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: const Offset(0, 2),
+
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        final animatedData = filterData[selectedFilter]!
+            .map((value) => value * _animation.value)
+            .toList();
+
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
+          decoration: BoxDecoration(
+            color: isDarkMode
+                ? Theme.of(context).colorScheme.primary
+                : Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 10,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: EdgeInsets.only(left: 6.w, right: 6.w),
-            decoration: BoxDecoration(
-              color: isDarkMode
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.primary.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(12.r),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
-                  spreadRadius: 1,
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'How much you spend?',
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                        color: isDarkMode ? Colors.white : Colors.black87,
-                      ),
-                    ),
-                    TransactionTimeFilterDropdown(
-                      selectedOption: selectedFilter,
-                      onChanged: (newValue) {
-                        setState(() {
-                          selectedFilter = newValue;
-                        });
-                      },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.only(left: 6.w, right: 6.w),
+                decoration: BoxDecoration(
+                  color: isDarkMode
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 10,
+                      offset: const Offset(0, 2),
                     ),
                   ],
                 ),
-                SizedBox(height: 10.h),
-                Container(
-                  padding:
-                  EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: isDarkMode
-                            ? Colors.white
-                            : Colors.grey.shade500),
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 10.h, left: 5.r),
-                    child: SizedBox(
-                      height: 200.h,
-                      child: BarChart(
-                        BarChartData(
-                          alignment: BarChartAlignment.spaceAround,
-                          maxY: 4000,
-                          barTouchData: BarTouchData(enabled: false),
-                          titlesData: FlTitlesData(
-                            show: true,
-                            bottomTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                getTitlesWidget: (value, meta) {
-                                  const days = [
-                                    'Mon',
-                                    'Tue',
-                                    'Wed',
-                                    'Thu',
-                                    'Fri',
-                                    'Sat',
-                                    'Sun'
-                                  ];
-                                  return Text(
-                                    days[value.toInt()],
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: isDarkMode
-                                          ? Colors.white
-                                          : Colors.black54,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            leftTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                reservedSize: 40.w,
-                                getTitlesWidget: (value, meta) {
-                                  return Text(
-                                    '\$${(value / 1000).toStringAsFixed(1)}K',
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                      color: isDarkMode
-                                          ? Colors.white
-                                          : Colors.black54,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            topTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false)),
-                            rightTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'How much you spend?',
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600,
+                            color: isDarkMode ? Colors.white : Colors.black87,
                           ),
-                          borderData: FlBorderData(show: false),
-                          barGroups: filterData[selectedFilter]!
-                              .asMap()
-                              .entries
-                              .map((e) => _buildBarGroup(e.key, e.value))
-                              .toList(),
-                          gridData: const FlGridData(show: false),
+                        ),
+                        TransactionTimeFilterDropdown(
+                          selectedOption: selectedFilter,
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedFilter = newValue;
+                              _controller.reset();
+                              _controller.forward();
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10.h),
+                    Container(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: isDarkMode
+                              ? Colors.white
+                              : Colors.grey.shade500,
+                        ),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10.h, left: 5.r),
+                        child: SizedBox(
+                          height: 200.h,
+                          child: BarChart(
+                            BarChartData(
+                              alignment: BarChartAlignment.spaceAround,
+                              maxY: 4000,
+                              barTouchData: BarTouchData(enabled: false),
+                              titlesData: FlTitlesData(
+                                show: true,
+                                bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    getTitlesWidget: (value, meta) {
+                                      const days = [
+                                        'Mon', 'Tue', 'Wed',
+                                        'Thu', 'Fri', 'Sat', 'Sun'
+                                      ];
+                                      return Text(
+                                        days[value.toInt()],
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: isDarkMode
+                                              ? Colors.white
+                                              : Colors.black54,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                leftTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 40.w,
+                                    getTitlesWidget: (value, meta) {
+                                      return Text(
+                                        '\$${(value / 1000).toStringAsFixed(1)}K',
+                                        style: TextStyle(
+                                          fontSize: 10.sp,
+                                          color: isDarkMode
+                                              ? Colors.white
+                                              : Colors.black54,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                topTitles: const AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false)),
+                                rightTitles: const AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false)),
+                              ),
+                              borderData: FlBorderData(show: false),
+                              barGroups: animatedData
+                                  .asMap()
+                                  .entries
+                                  .map((e) => _buildBarGroup(e.key, e.value))
+                                  .toList(),
+                              gridData: const FlGridData(show: false),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:fl_chart/fl_chart.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import '../../component/time_filter.dart';
+//  // make sure path is correct
+//
+// class BarChartWidget extends StatefulWidget {
+//   const BarChartWidget({Key? key}) : super(key: key);
+//
+//   @override
+//   State<BarChartWidget> createState() => _BarChartWidgetState();
+// }
+//
+// class _BarChartWidgetState extends State<BarChartWidget> {
+//   String selectedFilter = 'Weekly';
+//
+//   // Example data for different filters
+//   final Map<String, List<double>> filterData = {
+//     'Lifetime': [3000, 2500, 2800, 3500, 4000, 3700, 3900],
+//     'Weekly': [1500, 2000, 1200, 2500, 1800, 3200, 3600],
+//     'Monthly': [2000, 2300, 2100, 2400, 2600, 2800, 3000],
+//     'Yearly': [2500, 2700, 3000, 3200, 3300, 3500, 3700],
+//     'Date': [1000, 1100, 900, 1200, 800, 1500, 1300],
+//   };
+//
+//   BarChartGroupData _buildBarGroup(int x, double y) {
+//     return BarChartGroupData(
+//       x: x,
+//       barRods: [
+//         BarChartRodData(
+//           toY: y,
+//           color: const Color(0xFFD44D5C),
+//           width: 24.w,
+//           borderRadius: BorderRadius.circular(4.r),
+//         ),
+//       ],
+//     );
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+//     return Container(
+//       padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
+//       decoration: BoxDecoration(
+//         color: isDarkMode
+//             ? Theme.of(context).colorScheme.primary
+//             : Colors.white,
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.grey.withOpacity(0.1),
+//             spreadRadius: 1,
+//             blurRadius: 10,
+//             offset: const Offset(0, 2),
+//           ),
+//         ],
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Container(
+//             padding: EdgeInsets.only(left: 6.w, right: 6.w),
+//             decoration: BoxDecoration(
+//               color: isDarkMode
+//                   ? Theme.of(context).colorScheme.primary
+//                   : Theme.of(context).colorScheme.primary.withOpacity(0.2),
+//               borderRadius: BorderRadius.circular(12.r),
+//               boxShadow: [
+//                 BoxShadow(
+//                   color: Colors.grey.withOpacity(0.1),
+//                   spreadRadius: 1,
+//                   blurRadius: 10,
+//                   offset: const Offset(0, 2),
+//                 ),
+//               ],
+//             ),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+//                     Text(
+//                       'How much you spend?',
+//                       style: TextStyle(
+//                         fontSize: 18.sp,
+//                         fontWeight: FontWeight.w600,
+//                         color: isDarkMode ? Colors.white : Colors.black87,
+//                       ),
+//                     ),
+//                     TransactionTimeFilterDropdown(
+//                       selectedOption: selectedFilter,
+//                       onChanged: (newValue) {
+//                         setState(() {
+//                           selectedFilter = newValue;
+//                         });
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//                 SizedBox(height: 10.h),
+//                 Container(
+//                   padding:
+//                   EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
+//                   decoration: BoxDecoration(
+//                     border: Border.all(
+//                         color: isDarkMode
+//                             ? Colors.white
+//                             : Colors.grey.shade500),
+//                     borderRadius: BorderRadius.circular(12.r),
+//                   ),
+//                   child: Padding(
+//                     padding: EdgeInsets.only(top: 10.h, left: 5.r),
+//                     child: SizedBox(
+//                       height: 200.h,
+//                       child: BarChart(
+//                         BarChartData(
+//                           alignment: BarChartAlignment.spaceAround,
+//                           maxY: 4000,
+//                           barTouchData: BarTouchData(enabled: false),
+//                           titlesData: FlTitlesData(
+//                             show: true,
+//                             bottomTitles: AxisTitles(
+//                               sideTitles: SideTitles(
+//                                 showTitles: true,
+//                                 getTitlesWidget: (value, meta) {
+//                                   const days = [
+//                                     'Mon',
+//                                     'Tue',
+//                                     'Wed',
+//                                     'Thu',
+//                                     'Fri',
+//                                     'Sat',
+//                                     'Sun'
+//                                   ];
+//                                   return Text(
+//                                     days[value.toInt()],
+//                                     style: TextStyle(
+//                                       fontSize: 12.sp,
+//                                       color: isDarkMode
+//                                           ? Colors.white
+//                                           : Colors.black54,
+//                                     ),
+//                                   );
+//                                 },
+//                               ),
+//                             ),
+//                             leftTitles: AxisTitles(
+//                               sideTitles: SideTitles(
+//                                 showTitles: true,
+//                                 reservedSize: 40.w,
+//                                 getTitlesWidget: (value, meta) {
+//                                   return Text(
+//                                     '\$${(value / 1000).toStringAsFixed(1)}K',
+//                                     style: TextStyle(
+//                                       fontSize: 10.sp,
+//                                       color: isDarkMode
+//                                           ? Colors.white
+//                                           : Colors.black54,
+//                                     ),
+//                                   );
+//                                 },
+//                               ),
+//                             ),
+//                             topTitles: const AxisTitles(
+//                                 sideTitles: SideTitles(showTitles: false)),
+//                             rightTitles: const AxisTitles(
+//                                 sideTitles: SideTitles(showTitles: false)),
+//                           ),
+//                           borderData: FlBorderData(show: false),
+//                           barGroups: filterData[selectedFilter]!
+//                               .asMap()
+//                               .entries
+//                               .map((e) => _buildBarGroup(e.key, e.value))
+//                               .toList(),
+//                           gridData: const FlGridData(show: false),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+//
 
 
 

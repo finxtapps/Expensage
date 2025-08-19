@@ -25,10 +25,13 @@ class _LandingPageState extends State<LandingPage> {
           Container(
             child: isDarkMode
                 ? Image.asset('assets/images/landing-Image/landingBgDark.png',
-                height: MediaQuery.of(context).size.height * .65
+                height: MediaQuery.of(context).size.height * .65,
+                width: double.infinity,
             )
                 : Image.asset('assets/images/landing-Image/LandingBgBright.png',
-                height: MediaQuery.of(context).size.height * .65),
+                height: MediaQuery.of(context).size.height * .65,
+              width: double.infinity,
+            ),
             // color: Colors.cyanAccent.withOpacity(.15),
           ),
 

@@ -65,7 +65,6 @@ class _NewBottomBarState extends State<NewBottomBar>
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
                     child: SizedBox(
-                      width: availableWidth * 0.9,
                       height: 400,
                       child: AddTransactionScreen(
 

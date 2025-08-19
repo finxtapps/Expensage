@@ -19,7 +19,9 @@ final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        padding:  EdgeInsets.symmetric(horizontal: 20,
+            vertical:MediaQuery.of(context).size.height*.015
+        ),
         decoration: BoxDecoration(
           color:isDarkMode? Color(0xFF343030):Theme.of(context).colorScheme.secondary.withOpacity(.1), // Light pink background
           borderRadius: BorderRadius.circular(15),

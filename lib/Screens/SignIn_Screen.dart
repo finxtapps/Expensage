@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Widgets/signInScreen_Widgets/SignInForm.dart';
-import '../Widgets/signInScreen_Widgets/SignIn_HeaderSection.dart';
-import '../Widgets/signUpScreenWidgets/HeaderSection.dart';
-import '../Widgets/signUpScreenWidgets/SignUpForm.dart';
+
+import '../component/login_signup_Header.dart';
 import '../theme/header_Color.dart';
 import '../theme/theme_provider.dart';
 
@@ -52,7 +51,8 @@ class _SignInScreenState extends State<SignInScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              const SignInHeaderSection(),
+              LoginSignupHeader(btn_title: 'Sign Up',),
+              // const SignInHeaderSection(),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 5),
                 child: Text(

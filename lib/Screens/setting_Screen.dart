@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uiproject/component/header_appbar.dart';
 
 import '../Widgets/settingScreenWidgets/SettingsContent.dart';
 import '../Widgets/settingScreenWidgets/settingsHeader.dart';
@@ -20,7 +21,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       body: Column(
         children: [
-          const SettingsHeader(),
+
+          HeaderAppbar(title: "Settings",
+            back_btn: false,),
+          // const SettingsHeader(),
           Expanded(
             child: Column(
               children: [

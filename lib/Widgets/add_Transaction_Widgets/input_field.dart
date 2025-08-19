@@ -29,12 +29,20 @@ class InputField extends StatelessWidget {
                 controller: controller,
                 keyboardType: keyboardType,
                 decoration: InputDecoration(
+
                   hintText: hintText,
                   hintStyle: TextStyle(color: Colors.grey[500]),
                   border: InputBorder.none,
                   isDense: true,
                   contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),),
+
+                    focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary),
+              ),
+
+            ),
               ),
             ),
           ],

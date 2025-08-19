@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uiproject/theme/header_Color.dart';
-import '../Widgets/signUpScreenWidgets/HeaderSection.dart';
+
 import '../Widgets/signUpScreenWidgets/SignUpForm.dart';
+import '../component/login_signup_Header.dart';
 import '../theme/theme_provider.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -51,7 +52,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              const HeaderSection(),
+              LoginSignupHeader(btn_title: 'Sign In',),
+              // const HeaderSection(),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Text(

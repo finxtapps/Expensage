@@ -139,10 +139,6 @@ class _LocationScreenState extends State<LocationScreen> {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: "+${country.phoneCode}   ",
-                            style: TextStyle(fontSize: 16, color: Colors.black),
-                          ),
-                          TextSpan(
                             text: country.name,
                             style: TextStyle(
                               fontSize: 16,

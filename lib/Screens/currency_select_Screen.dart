@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:currency_picker/currency_picker.dart';
+import 'package:uiproject/component/header_appbar.dart';
 
 class CurrencySelectScreen extends StatefulWidget {
   @override
@@ -41,20 +42,21 @@ class _CurrencySelectScreenState extends State<CurrencySelectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Choose a currency'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-      ),
+      // appBar: AppBar(
+      //   title: Text('Choose a currency'),
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back),
+      //     onPressed: () => Navigator.pop(context),
+      //   ),
+      //   backgroundColor: Colors.white,
+      //   foregroundColor: Colors.black,
+      // ),
       body: Column(
         children: [
+          HeaderAppbar(title: "Choose a currency"),
           // Search box
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            padding: const EdgeInsets.only(top: 2.0,bottom: 16),
             child: TextField(
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
@@ -73,6 +75,7 @@ class _CurrencySelectScreenState extends State<CurrencySelectScreen> {
           // Currency list
           Expanded(
             child: ListView.builder(
+              padding: EdgeInsets.zero,
               itemCount: filteredCurrencies.length,
               itemBuilder: (context, index) {
                 var currency = filteredCurrencies[index];
@@ -80,19 +83,29 @@ class _CurrencySelectScreenState extends State<CurrencySelectScreen> {
                   currency.code.substring(0, 2),
                 );
 
-                return ListTile(
-                  leading: Text(flagEmoji, style: TextStyle(fontSize: 24)),
-                  title: Text(currency.code),
-                  subtitle: Text(currency.name),
-                  trailing: selectedCurrency?.code == currency.code
-                      ? Icon(Icons.check, color: Colors.green)
-                      : null,
-                  onTap: () {
-                    setState(() {
-                      selectedCurrency = currency;
-                      selectedFlag = flagEmoji; // 🔹 Save flag here
-                    });
-                  },
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Theme.of(context).colorScheme.primary.withOpacity(.2),
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                  child: ListTile(
+                    leading: Text(flagEmoji, style: TextStyle(fontSize: 24)),
+                    title: Text(currency.code),
+                    subtitle: Text(currency.name),
+                    trailing: selectedCurrency?.code == currency.code
+                        ? Icon(Icons.check, color: Colors.green)
+                        : null,
+                    onTap: () {
+                      setState(() {
+                        selectedCurrency = currency;
+                        selectedFlag = flagEmoji; // 🔹 Save flag here
+                      });
+                    },
+                  ),
                 );
               },
             ),

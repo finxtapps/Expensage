@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uiproject/Screens/SignUpScreen.dart';
 import 'package:uiproject/Screens/splash_Screen.dart';
-import 'package:uiproject/Widgets/home_Screen_Widegets/new_BottomBar.dart' hide AddTransactionScreen;
-import 'package:uiproject/theme/theme_provider.dart';
 
+import 'package:uiproject/theme/theme_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 import 'Screens/Landing_page.dart';
@@ -15,7 +15,7 @@ import 'Screens/create_Pin_Screen.dart';
 import 'Screens/currency_select_Screen.dart';
 import 'Screens/expense_analysis_screen.dart';
 
-import 'Screens/login_Screen.dart';
+import 'Screens/SignIn_Screen.dart';
 import 'Screens/notification_Screen.dart';
 import 'Screens/scan_Fingerprint_screen.dart';
 import 'Screens/set_pin_and_fingerprint_Screen.dart';
@@ -23,6 +23,8 @@ import 'Screens/personal_information.dart';
 import 'Screens/profile_Information.dart';
 import 'Screens/setting_Screen.dart';
 import 'Screens/wrapper.dart';
+import 'Widgets/ExpenseScreenWidget/pie_chart.dart';
+import 'component/observer.dart';
 
 
 
@@ -41,6 +43,9 @@ void main() async {
   };
   debugPrintRebuildDirtyWidgets = true;
   WidgetsFlutterBinding.ensureInitialized();
+//this is for translation
+  //await EasyLocalization.ensureInitialized();
+
   final prefs = await SharedPreferences.getInstance();
   final savedTheme = prefs.getString('selectedTheme') ?? 'Pink';
 
@@ -66,6 +71,7 @@ class MyApp extends StatelessWidget {
           splitScreenMode: true,
           builder: (context, child) {
             return MaterialApp(
+              navigatorObservers: [routeObserver],
 
               debugShowCheckedModeBanner: false,
               theme: themeProvider.themeData,

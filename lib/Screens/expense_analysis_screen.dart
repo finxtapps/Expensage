@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../Widgets/ExpenseScreenWidget/bar_chart.dart';
 import '../Widgets/ExpenseScreenWidget/pie_chart.dart';
-import '../Widgets/home_Screen_Widegets/transaction_list.dart';
-class ExpenseAnalysisScreen extends StatefulWidget {
-  const ExpenseAnalysisScreen({Key? key}) : super(key: key);
+import '../component/transaction_list.dart';
 
-  @override
-  _ExpenseAnalysisScreenState createState() => _ExpenseAnalysisScreenState();
-}
-
-class _ExpenseAnalysisScreenState extends State<ExpenseAnalysisScreen> {
-  String _selectedFilter = 'Weekly';
+class ExpenseAnalysisScreen extends StatelessWidget {
+  final bool active;
+  const ExpenseAnalysisScreen({Key? key, this.active = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? Theme.of(context).colorScheme.primary
-          : Colors.white,
+      backgroundColor: isDarkMode ? Theme.of(context).colorScheme.primary : Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(5.w),
@@ -30,10 +22,7 @@ class _ExpenseAnalysisScreenState extends State<ExpenseAnalysisScreen> {
             children: [
               const BarChartWidget(),
               SizedBox(height: 10.h),
-              PieChartWidget(
-
-
-              ),
+              RadialChartWidget(active: active),
               SizedBox(height: 10.h),
               const TransactionList(),
               SizedBox(height: 100.h),
@@ -44,6 +33,71 @@ class _ExpenseAnalysisScreenState extends State<ExpenseAnalysisScreen> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+//
+// import '../Widgets/ExpenseScreenWidget/bar_chart.dart';
+// import '../Widgets/ExpenseScreenWidget/pie_chart.dart';
+// import '../component/transaction_list.dart';
+// class ExpenseAnalysisScreen extends StatefulWidget {
+//   const ExpenseAnalysisScreen({Key? key}) : super(key: key);
+//
+//   @override
+//   _ExpenseAnalysisScreenState createState() => _ExpenseAnalysisScreenState();
+// }
+//
+// class _ExpenseAnalysisScreenState extends State<ExpenseAnalysisScreen> {
+//   String _selectedFilter = 'Weekly';
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+//
+//     return Scaffold(
+//       backgroundColor: isDarkMode
+//           ? Theme.of(context).colorScheme.primary
+//           : Colors.white,
+//       body: SafeArea(
+//         child: SingleChildScrollView(
+//           padding: EdgeInsets.all(5.w),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               const BarChartWidget(),
+//               SizedBox(height: 10.h),
+//               PieChartWidget(
+//
+//
+//               ),
+//               SizedBox(height: 10.h),
+//               const TransactionList(),
+//               SizedBox(height: 100.h),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 

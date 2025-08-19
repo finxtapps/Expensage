@@ -50,7 +50,7 @@ class HeaderSection extends StatelessWidget {
           Padding(
             padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.8,top: 80),
             child: SizedBox(
-              child: Image.asset("assets/header-Image/headerImage.png",
+              child: Image.asset("assets/images/header-Image/headerImage.png",
                 height: 100,
                 width: 100,
                 fit: BoxFit.cover,

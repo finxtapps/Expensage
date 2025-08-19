@@ -57,7 +57,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                                       padding: const EdgeInsets.all(30.0),
                                       child: Column(
                                         children: [
-                                          const SizedBox(height: 30),
+                                           SizedBox(height:MediaQuery.of(context).size.height * 0.025),
                                           InkWell(
                                             onTap: (){
                                               Navigator.pushNamed(context, '/personal');

@@ -21,6 +21,7 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+  String? _selectedGender;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,6 +67,8 @@ class _SignUpFormState extends State<SignUpForm> {
                 icon: Icons.phone_outlined,
                 keyboardType: TextInputType.phone,
               ),
+              const SizedBox(height: 10),
+              _buildGenderDropdown(),
               const SizedBox(height: 30),
               _buildSignUpButton(context),
               const SizedBox(height: 25),
@@ -78,6 +81,67 @@ class _SignUpFormState extends State<SignUpForm> {
       ),
     );
   }
+
+
+
+
+  Widget _buildGenderDropdown() {
+    return Container(
+      height: MediaQuery.of(context).size.width * .12,
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          color: Colors.grey[400]!,
+          width: 1.5,
+        ),
+      ),
+      child: Padding(
+        padding:  EdgeInsets.only(right: 8.0),
+        child: DropdownButtonFormField<String>(
+          value: _selectedGender,
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.people_outline,
+              color: Colors.grey[600],
+              size: 22,
+            ),
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: MediaQuery.of(context).size.width * .025,
+            ),
+          ),
+          hint: Text(
+            "Select Gender",
+            style: TextStyle(color: Colors.grey[600], fontSize: 12),
+          ),
+          items: ["Male", "Female", "Other"]
+              .map((gender) => DropdownMenuItem(
+            value: gender,
+            child: Text(
+              gender,
+              style: const TextStyle(fontSize: 14),
+            ),
+          ))
+              .toList(),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please select gender';
+            }
+            return null;
+          },
+          onChanged: (value) {
+            setState(() {
+              _selectedGender = value;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+
 
   Widget _buildInputField({
     required TextEditingController controller,
@@ -118,9 +182,9 @@ class _SignUpFormState extends State<SignUpForm> {
                     size: 22,
                   ),
                   border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(
+                  contentPadding:  EdgeInsets.symmetric(
                     horizontal: 20,
-                    vertical: 14, // Fixed position
+                    vertical: MediaQuery.of(context).size.width *.025,//10, // Fixed position
                   ),
                   errorStyle: const TextStyle(height: 0), // Hide default error text
                 ),

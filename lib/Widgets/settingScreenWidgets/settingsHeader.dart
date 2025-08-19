@@ -29,19 +29,13 @@ class SettingsHeader extends StatelessWidget {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 20),
+          padding:  EdgeInsets.symmetric(
+              vertical:MediaQuery.of(context).size.height*0.02 ,
+
+              horizontal: 20),
           child: Row(
             children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                  size: 24,
-                ),
-              ),
+
               const SizedBox(width: 20),
               const Text(
                 'Settings',

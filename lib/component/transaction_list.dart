@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../theme/theme_provider.dart';
+import '../theme/theme_provider.dart';
 
 class TransactionList extends StatefulWidget {
   const TransactionList({super.key});
@@ -219,7 +218,7 @@ class _TransactionListState extends State<TransactionList> {
         final secondaryColor = themeProvider.themeData.colorScheme.secondary.withOpacity(0.1);
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+          padding: const EdgeInsets.only(left: 10,right: 10,top: 5, bottom: 16),
           child: Container(
             decoration: BoxDecoration(
               color: isDarkMode
@@ -242,14 +241,20 @@ class _TransactionListState extends State<TransactionList> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0, right: 12),
+                      padding: const EdgeInsets.only(top: 2.0, right: 12),
                       child: GestureDetector(
                         onTap: _showFilterDrawer,
                         child: SizedBox(
-                          child: FaIcon(
-                            FontAwesomeIcons.filter,
+                          child:isDarkMode?Image.asset(
+                            "assets/images/icon_Images/orange_filter.png",
                             key: _filterIconKey,
-                            color: isDarkMode ? Colors.orange : Colors.black87,
+                            height:MediaQuery.of(context).size.height*.025,
+                            fit: BoxFit.cover,
+                          ): Image.asset(
+                            "assets/images/icon_Images/black_filter.png",
+                            height:MediaQuery.of(context).size.height*.025,
+                            key: _filterIconKey,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),

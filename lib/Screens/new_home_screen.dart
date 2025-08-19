@@ -1,7 +1,7 @@
 // NEW UPDATED FILE: new_home_screen.dart
 
 import 'package:flutter/material.dart';
-import 'package:uiproject/Widgets/home_Screen_Widegets/transaction_list.dart';
+import 'package:uiproject/component/transaction_list.dart';
 import '../Widgets/home_Screen_Widegets/balance_card.dart';
 import '../Widgets/home_Screen_Widegets/home_header.dart';
 
@@ -51,7 +51,7 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
 
           // Foreground: Scrollable content
           Padding(
-            padding: EdgeInsets.only(top: mediaHeight * 0.48),
+            padding: EdgeInsets.only(top: mediaHeight * 0.45),
             child: SingleChildScrollView(
 
               child: Column(
@@ -62,7 +62,8 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                     decoration: BoxDecoration(
                       color: isDarkMode
                           ? Theme.of(context).scaffoldBackgroundColor
-                          : Colors.white,
+                          : Colors.white
+                      ,
                     ),
                     child: const TransactionList(),
                   ),

@@ -1,19 +1,7 @@
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 import 'package:flutter/material.dart';
-import '../Screens/AddTransactionScreen.dart';
+import '../../../Screens/AddTransactionScreen.dart';
 
 class AddButton extends StatefulWidget {
   const AddButton({super.key});
@@ -51,14 +39,25 @@ class _AddButtonState extends State<AddButton> {
   Widget build(BuildContext context) {
     return Positioned(
       bottom: -1,
-      left: MediaQuery.of(context).size.width / 2 - 45,
+      left: MediaQuery.of(context).size.width / 2 - 38,
+
       child: Padding(
-        padding:  EdgeInsets.only(bottom: 16.0),
+        padding:  EdgeInsets.only(
+            bottom:MediaQuery.of(context).size.height*0.001),
         child: Material(
           color: Colors.transparent,
-
+borderRadius: BorderRadius.only(
+  topLeft: Radius.circular(MediaQuery.of(context).size.height*0.08),
+  topRight: Radius.circular(MediaQuery.of(context).size.height*0.08),
+),
           child: Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 7.0),
+            padding:  EdgeInsets.only(
+                left: MediaQuery.of(context).size.width*.015,
+              right: MediaQuery.of(context).size.width*.015,
+              bottom: MediaQuery.of(context).size.width*.05,
+
+
+            ),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -66,11 +65,11 @@ class _AddButtonState extends State<AddButton> {
                 boxShadow:  [BoxShadow(color: Colors.black12, blurRadius: 8)],
               ),
               child: Padding(
-                padding:  EdgeInsets.all(5.5),
+                padding:  EdgeInsets.all(5.0),
                 child: Container(
                   key: _buttonKey,
-                  height: 60,
-                  width: 60,
+                  height: MediaQuery.of(context).size.height*0.07,
+                  width: MediaQuery.of(context).size.height*0.07,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(40),
@@ -86,13 +85,15 @@ class _AddButtonState extends State<AddButton> {
                       customBorder: const CircleBorder(),
                       onTap: _openPopup,
                       child: Container(
-                        height: 60,
-                        width: 60,
+                        height: MediaQuery.of(context).size.height*0.07,
+                        width: MediaQuery.of(context).size.height*0.07,
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.add, size: 60, color: Colors.white),
+                        child:  Icon(Icons.add,
+                            size: MediaQuery.of(context).size.height*0.07,
+                            color: Colors.white),
                       ),
                     ),
                   ),
