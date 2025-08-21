@@ -13,6 +13,7 @@ class UploadButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -43,7 +44,7 @@ class UploadButton extends StatelessWidget {
                   selectedImage != null
                       ? Icons.check_circle_outline
                       : Icons.upload_outlined,
-                  color: selectedImage != null
+                  color:isDarkMode ? Colors.white : selectedImage != null
                       ? const Color(0xFFEF5350)
                       : Colors.black87,
                   size: 20,
@@ -57,7 +58,7 @@ class UploadButton extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: selectedImage != null
+                      color:isDarkMode ? Colors.white : selectedImage != null
                           ? const Color(0xFFEF5350)
                           : Colors.black87,
                     ),

@@ -7,6 +7,7 @@ class HeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
       height: MediaQuery.of(context).size.height * 0.35,
       width: double.infinity, // Use double.infinity for full width
@@ -14,7 +15,10 @@ class HeaderSection extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
+          colors:isDarkMode?[
+            Colors.black,
+            Colors.black
+          ]: [
             Theme.of(context).colorScheme.primary.withOpacity(.9),
             Theme.of(context).colorScheme.secondary,
             Theme.of(context).colorScheme.secondary,

@@ -58,20 +58,15 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                                       child: Column(
                                         children: [
                                            SizedBox(height:MediaQuery.of(context).size.height * 0.025),
-                                          InkWell(
-                                            onTap: (){
-                                              Navigator.pushNamed(context, '/personal');
-                                            },
-                                            child: MenuItem(
+
+                                             MenuItem(
                                               icon: Icons.person,
                                               title: 'Personal Information',
                                               onTap: () {
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  const SnackBar(content: Text('Personal Information tapped')),
-                                                );
+                                                Navigator.pushNamed(context, '/personal');
                                               },
                                             ),
-                                          ),
+
                                           const SizedBox(height: 20),
                                           MenuItem(
                                             icon: Icons.diamond,

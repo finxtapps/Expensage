@@ -79,12 +79,26 @@ class _SignInScreenState extends State<SignInScreen> {
               //   ),
               // ),
               Expanded(
-                child: SignInForm(
-                  formKey: _formKey,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(MediaQuery.of(context).size.width * .25),
+                      topRight: Radius.circular(MediaQuery.of(context).size.width * .25),
+                    ),
+                    color:isDarkMode
+                        ? Theme.of(context).colorScheme.secondary
+                        : Colors.white.withOpacity(.1),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 3.0),
+                    child: SignInForm(
+                      formKey: _formKey,
 
-                  emailController: _emailController,
-                  passwordController: _passwordController,
+                      emailController: _emailController,
+                      passwordController: _passwordController,
 
+                    ),
+                  ),
                 ),
               ),
             ],

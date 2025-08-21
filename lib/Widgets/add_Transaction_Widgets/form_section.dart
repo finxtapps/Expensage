@@ -21,6 +21,7 @@ class FormSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SingleChildScrollView(
       physics: NeverScrollableScrollPhysics(),
       child: Padding(
@@ -28,8 +29,8 @@ class FormSection extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
-            border: Border.all(color: Colors.black),
+            color:isDarkMode ? Colors.black : Colors.white,
+            border: Border.all(color:isDarkMode ? Colors.white : Colors.black),
           ),
           padding: const EdgeInsets.all(24),
           child: Column(
@@ -50,11 +51,11 @@ class FormSection extends StatelessWidget {
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 50),
-              const Text(
+               Text(
                 'Add invoice',
                 style: TextStyle(
                   fontSize: 18,
-                  color: Colors.grey,
+                  color:isDarkMode ? Colors.white : Colors.grey,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -121,6 +122,7 @@ class FormSection extends StatelessWidget {
   }
 
   Widget _buildBottomButtons(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -129,8 +131,8 @@ class FormSection extends StatelessWidget {
             onPressed: () {},
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-              side: const BorderSide(
-                color: Colors.black,
+              side:  BorderSide(
+                color:isDarkMode ? Colors.white : Colors.black,
                 width: 1.5,
               ),
               shape: RoundedRectangleBorder(
@@ -145,7 +147,7 @@ class FormSection extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.primary,
+                    color:isDarkMode?Color(0xFFD44D5C) :Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
@@ -157,7 +159,7 @@ class FormSection extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onSave,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.secondary,
+              backgroundColor:isDarkMode?Color(0xFFD44D5C): Theme.of(context).colorScheme.secondary,
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),

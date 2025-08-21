@@ -37,21 +37,28 @@ class _LoginSignupHeaderState extends State<LoginSignupHeader> {
                 ),
               ),
               const SizedBox(width: 8,),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.3),
+              InkWell(
+                onTap: widget.btn_title=="Sign In"?(){
+                  Navigator.pushNamed(context, '/signin');
+                }:(){
+                  Navigator.pushNamed(context, '/signup');
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.3),
+                    ),
                   ),
-                ),
-                child:  Text(
-                  widget.btn_title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                  child:  Text(
+                    widget.btn_title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),

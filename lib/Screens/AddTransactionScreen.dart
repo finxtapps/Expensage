@@ -90,9 +90,10 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     print("\n  =+++++++++++++++++++++++++++++++++++++++++++Building AddTransactionScreen  \n"); // Add this
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor:isDarkMode ? Colors.black : Colors.grey[50],
       body: SingleChildScrollView(
         child: Stack(
           children: [

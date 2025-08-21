@@ -24,122 +24,168 @@ class _SignUpFormState extends State<SignUpForm> {
   String? _selectedGender;
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
 
       margin: const EdgeInsets.only(top: 10),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration:  BoxDecoration(
+        color:isDarkMode
+            ? Theme.of(context).colorScheme.primary
+            : Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0,vertical: 15),
-        child: Form(
-          key: widget.formKey,
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
-              _buildInputField(
-                controller: widget.fullNameController,
-                hintText: 'Full name',
-                icon: Icons.person_outline,
+        padding: const EdgeInsets.symmetric(horizontal: 15.0,),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
+            ),
+            border: Border.all(
+              color:isDarkMode? Color(0xFFD44D5C) : Colors.transparent,
+              width: 4,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 15),
+            child: Form(
+              key: widget.formKey,
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  _buildInputField(
+                    controller: widget.fullNameController,
+                    hintText: 'Full name',
+                    icon: Icons.person_outline,
+                  ),
+                  const SizedBox(height: 10),
+                  _buildInputField(
+                    controller: widget.emailController,
+                    hintText: 'Email',
+                    icon: Icons.email_outlined,
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 10),
+                  _buildInputField(
+                    controller: widget.passwordController,
+                    hintText: 'Password',
+                    icon: Icons.lock_outline,
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 10),
+                  _buildInputField(
+                    controller: widget.phoneController,
+                    hintText: 'Phone number',
+                    icon: Icons.phone_outlined,
+                    keyboardType: TextInputType.phone,
+                  ),
+                  const SizedBox(height: 10),
+                  _buildGenderDropdown(),
+                  const SizedBox(height: 30),
+                  _buildSignUpButton(context),
+                  const SizedBox(height: 25),
+                  _buildDivider(),
+                  const SizedBox(height: 25),
+                  _buildSocialButtons(context),
+                ],
               ),
-              const SizedBox(height: 10),
-              _buildInputField(
-                controller: widget.emailController,
-                hintText: 'Email',
-                icon: Icons.email_outlined,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 10),
-              _buildInputField(
-                controller: widget.passwordController,
-                hintText: 'Password',
-                icon: Icons.lock_outline,
-                obscureText: true,
-              ),
-              const SizedBox(height: 10),
-              _buildInputField(
-                controller: widget.phoneController,
-                hintText: 'Phone number',
-                icon: Icons.phone_outlined,
-                keyboardType: TextInputType.phone,
-              ),
-              const SizedBox(height: 10),
-              _buildGenderDropdown(),
-              const SizedBox(height: 30),
-              _buildSignUpButton(context),
-              const SizedBox(height: 25),
-              _buildDivider(),
-              const SizedBox(height: 25),
-              _buildSocialButtons(context),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
-
 
 
 
   Widget _buildGenderDropdown() {
-    return Container(
-      height: MediaQuery.of(context).size.width * .12,
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: Colors.grey[400]!,
-          width: 1.5,
-        ),
-      ),
-      child: Padding(
-        padding:  EdgeInsets.only(right: 8.0),
-        child: DropdownButtonFormField<String>(
-          value: _selectedGender,
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-              Icons.people_outline,
-              color: Colors.grey[600],
-              size: 22,
+    String? errorText;
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.width * .12,
+              decoration: BoxDecoration(
+                color:isDarkMode? Theme.of(context).scaffoldBackgroundColor : Colors.grey[50],
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: Colors.grey[400]!,
+                  width: 1.5,
+                ),
+              ),
+              child: Padding(
+                padding:  EdgeInsets.only(right: 8.0),
+                child: DropdownButtonFormField<String>(
+                  value: _selectedGender,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.people_outline,
+                      color:isDarkMode ? Colors.white : Theme.of(context).colorScheme.primary,
+                      size: 22,
+                    ),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: MediaQuery.of(context).size.width * .025,
+                    ),
+                    errorStyle: const TextStyle(height: 0), // Hide default error
+                  ),
+                  hint: Text(
+                    "Select Gender",
+                    style: TextStyle(color:isDarkMode ? Colors.white : Colors.grey[600], fontSize: 12),
+                  ),
+                  items: ["Male", "Female", "Other"]
+                      .map((gender) => DropdownMenuItem(
+                    value: gender,
+                    child: Text(
+                      gender,
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ))
+                      .toList(),
+                  validator: (value) {
+                    String? message;
+                    if (value == null || value.isEmpty) {
+                      message = 'Please select gender';
+                    }
+                    setState(() => errorText = message);
+                    return null; // Prevent default error space
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedGender = value;
+                      errorText = null; // clear error once selected
+                    });
+                  },
+                ),
+              ),
             ),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: MediaQuery.of(context).size.width * .025,
-            ),
-          ),
-          hint: Text(
-            "Select Gender",
-            style: TextStyle(color: Colors.grey[600], fontSize: 12),
-          ),
-          items: ["Male", "Female", "Other"]
-              .map((gender) => DropdownMenuItem(
-            value: gender,
-            child: Text(
-              gender,
-              style: const TextStyle(fontSize: 14),
-            ),
-          ))
-              .toList(),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please select gender';
-            }
-            return null;
-          },
-          onChanged: (value) {
-            setState(() {
-              _selectedGender = value;
-            });
-          },
-        ),
-      ),
+            if (errorText != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
+                  errorText!,
+                  style: const TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
+            ]
+          ],
+        );
+      },
     );
   }
+
+
+
+
 
 
 
@@ -153,13 +199,14 @@ class _SignUpFormState extends State<SignUpForm> {
     String? errorText;
     return StatefulBuilder(
       builder: (context, setState) {
+        final isDarkMode = Theme.of(context).brightness == Brightness.dark;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               height: MediaQuery.of(context).size.width * .12,
               decoration: BoxDecoration(
-                color: Colors.grey[50],
+                color:isDarkMode? Theme.of(context).scaffoldBackgroundColor : Colors.grey[50],
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(
                   color: Colors.grey[400]!,
@@ -173,12 +220,12 @@ class _SignUpFormState extends State<SignUpForm> {
                 decoration: InputDecoration(
                   hintText: hintText,
                   hintStyle: TextStyle(
-                    color: Colors.grey[600],
+                    color:isDarkMode?Colors.white: Colors.grey[600],
                     fontSize: 12,
                   ),
                   prefixIcon: Icon(
                     icon,
-                    color: Colors.grey[600],
+                    color:isDarkMode?Colors.white: Theme.of(context).colorScheme.primary,
                     size: 22,
                   ),
                   border: InputBorder.none,

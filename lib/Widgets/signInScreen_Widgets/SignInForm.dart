@@ -23,48 +23,64 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.only(top: 10),
       decoration:  BoxDecoration(
-        color: Colors.white,
+        color:isDarkMode?Theme.of(context).colorScheme.primary :Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
       ),
       child: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 30.0,vertical: 15),
-        child: Form(
-          key: widget.formKey,
-          child: Column(
-            children: [
-               SizedBox(height: 10),
-              Text("Welcome Back",style: TextStyle(color: Colors.black,fontSize: 38,fontWeight: FontWeight.bold),),
+        padding:  EdgeInsets.symmetric(horizontal: 15.0,),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
+            ),
+            border: Border.all(
+              color:isDarkMode? Color(0xFFD44D5C) : Colors.transparent,
+              width: 4,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 15),
+            child: Form(
+              key: widget.formKey,
+              child: Column(
+                children: [
+                   SizedBox(height: 10),
+                  Text("Welcome Back",style: TextStyle(color: isDarkMode?Colors.white:Colors.black,fontSize: 38,fontWeight: FontWeight.bold),),
 
-              Text("Enter your details below",style: TextStyle(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold),),
-              const SizedBox(height: 40),
-              _buildInputField(
-                controller: widget.emailController,
-                hintText: 'Email',
-                icon: Icons.email_outlined,
-                keyboardType: TextInputType.emailAddress,
+                  Text("Enter your details below",style: TextStyle(color:isDarkMode?Colors.grey[100]! :Colors.black54,fontSize: 16,fontWeight: FontWeight.bold),),
+                  const SizedBox(height: 40),
+                  _buildInputField(
+                    controller: widget.emailController,
+                    hintText: 'Email',
+                    icon: Icons.email_outlined,
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 18),
+                  _buildInputField(
+                    controller: widget.passwordController,
+                    hintText: 'Password',
+                    icon: Icons.lock_outline,
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 40),
+                  _buildSignUpButton(context),
+                  const SizedBox(height: 15),
+                  Text("Forgot your Password?",style: TextStyle(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold),),
+                  const SizedBox(height: 50),
+                  _buildDivider(),
+                  const SizedBox(height: 28),
+                  _buildSocialButtons(context),
+                ],
               ),
-              const SizedBox(height: 18),
-              _buildInputField(
-                controller: widget.passwordController,
-                hintText: 'Password',
-                icon: Icons.lock_outline,
-                obscureText: true,
-              ),
-              const SizedBox(height: 40),
-              _buildSignUpButton(context),
-              const SizedBox(height: 15),
-              Text("Forgot your Password?",style: TextStyle(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold),),
-              const SizedBox(height: 50),
-              _buildDivider(),
-              const SizedBox(height: 28),
-              _buildSocialButtons(context),
-            ],
+            ),
           ),
         ),
       ),
@@ -77,48 +93,74 @@ class _SignInFormState extends State<SignInForm> {
     required IconData icon,
     bool obscureText = false,
     TextInputType keyboardType = TextInputType.text,
-  }) {
-    return Container(
-      height: MediaQuery.of(context).size.width*.12,
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: Colors.grey[400]!,
-          width: 1.5,
-        ),
-      ),
-      child: TextFormField(
-        controller: controller,
-        obscureText: obscureText,
-        keyboardType: keyboardType,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(
-            color: Colors.grey[600],
-            fontSize: 12,
-          ),
-          prefixIcon: Icon(
-            icon,
-            color: Colors.grey[600],
-            size: 22,
-          ),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 18,
-          ),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'This field is required';
-          }
-          if (hintText == 'Email' && !value.contains('@')) {
-            return 'Please enter a valid email';
-          }
-          return null;
-        },
-      ),
+  })
+  {
+    String? errorText;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.width * .12,
+              decoration: BoxDecoration(
+                color: isDarkMode?Theme.of(context).scaffoldBackgroundColor:Colors.grey[50],
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: Colors.grey[400]!,
+                  width: 1.5,
+                ),
+              ),
+              child: TextFormField(
+                controller: controller,
+                obscureText: obscureText,
+                keyboardType: keyboardType,
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  hintStyle: TextStyle(
+                    color:isDarkMode?Colors.white: Colors.grey[600],
+                    fontSize: 12,
+                  ),
+                  prefixIcon: Icon(
+                    icon,
+                    color:isDarkMode?Colors.white: Colors.grey[600],
+                    size: 22,
+                  ),
+                  border: InputBorder.none,
+                  contentPadding:  EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: MediaQuery.of(context).size.width *.025,//10, // Fixed position
+                  ),
+                  errorStyle: const TextStyle(height: 0), // Hide default error text
+                ),
+                validator: (value) {
+                  String? message;
+                  if (value == null || value.isEmpty) {
+                    message = 'This field is required';
+                  }
+                  if (hintText == 'Email' &&
+                      value != null &&
+                      !value.contains('@')) {
+                    message = 'Please enter a valid email';
+                  }
+                  setState(() => errorText = message);
+                  return null; // Prevent default error space
+                },
+              ),
+            ),
+            if (errorText != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
+                  errorText!,
+                  style:  TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
+            ]
+          ],
+        );
+      },
     );
   }
 

@@ -24,10 +24,10 @@ class _PersonalInformationState extends State<PersonalInformation> {
         child: Column(
           children: [
             Container(
-              decoration: const BoxDecoration(
+              decoration:  BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(40),
-                  topLeft: Radius.circular(40),
+                  // topRight: Radius.circular(40),
+                  // topLeft: Radius.circular(40),
                   bottomLeft: Radius.circular(80),
                   bottomRight: Radius.circular(80),
                 ),
@@ -35,8 +35,10 @@ class _PersonalInformationState extends State<PersonalInformation> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xFFD44D5C), // First color
-                    Color(0xFF6E2830), // Second color
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.secondary,
+                    // Color(0xFFD44D5C), // First color
+                    // Color(0xFF6E2830), // Second color
                   ],
                 ),
               ),
@@ -51,11 +53,13 @@ class _PersonalInformationState extends State<PersonalInformation> {
                       Row(
                         children: [
                           GestureDetector(
-                            onTap: () {},
-                            child: const Icon(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child:  Icon(
                               Icons.arrow_back,
                               color: Colors.white,
-                              size: 24,
+                              size: MediaQuery.of(context).size.width * .08,
                             ),
                           ),
                           const Expanded(
@@ -133,78 +137,100 @@ class _PersonalInformationState extends State<PersonalInformation> {
   Widget _buildInputField({
     required TextEditingController controller,
     required String title,
-
-
     bool obscureText = false,
     TextInputType keyboardType = TextInputType.text,
   }) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: Text(title,style: TextStyle(color: Colors.grey[500],fontWeight: FontWeight.bold,fontSize: 18),),
-        ),
-        Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFFE16472).withOpacity(.2),
-              borderRadius: BorderRadius.circular(15),
+    String? errorText;
 
-            ),
-            child: Column(
-              children: [
-
-                TextFormField(
-                  controller: controller,
-                  obscureText: obscureText,
-                  keyboardType: keyboardType,
-                  decoration: const InputDecoration(
-
-
-
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'This field is required';
-                    }
-                    if (value == 'Email' && !value.contains('@')) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Title
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0, bottom: 5),
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
-              ],
-            )
-        )
-      ],
+              ),
+            ),
+
+            // Input field
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary.withOpacity(.1),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: TextFormField(
+                controller: controller,
+                obscureText: obscureText,
+                keyboardType: keyboardType,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
+                  errorStyle: TextStyle(height: 0), // hide default error
+                ),
+                validator: (value) {
+                  String? message;
+                  if (value == null || value.isEmpty) {
+                    message = 'This field is required';
+                  } else if (title == "Email" && !value.contains('@')) {
+                    message = 'Please enter a valid email';
+                  } else if (title == "Phone number" &&
+                      (value.length < 10 || value.length > 12)) {
+                    message = 'Please enter a valid phone number';
+                  }
+
+                  setState(() => errorText = message);
+                  return null; // prevent default error widget
+                },
+              ),
+            ),
+
+            // Custom error below field
+            if (errorText != null) ...[
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0, top: 5),
+                child: Text(
+                  errorText!,
+                  style: const TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
+            ]
+          ],
+        );
+      },
     );
   }
+
 
   Widget _buildSaveButton(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width*.4,
-      height: 55,
+      height: MediaQuery.of(context).size.height*.055,
       child: ElevatedButton(
         onPressed: () {
           if (formKey.currentState!.validate()) {
             // Handle sign up
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  'Sign up functionality would be implemented here',
-                ),
-              ),
-            );
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   const SnackBar(
+            //     content: Text(
+            //       'Sign up functionality would be implemented here',
+            //     ),
+            //   ),
+            // );
           }
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFD44D5C),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),

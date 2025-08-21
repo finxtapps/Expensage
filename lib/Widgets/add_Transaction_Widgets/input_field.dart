@@ -16,13 +16,14 @@ class InputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding:  EdgeInsets.symmetric(horizontal: 8.0),
       child: ConstrainedBox(
         constraints:  BoxConstraints(minHeight: 56), // min height fix
         child: Row(
           children: [
-            Icon(icon, size: 22, color: Colors.grey[700]),
+            Icon(icon, size: 22, color:isDarkMode?Colors.white : Colors.grey[700]),
             const SizedBox(width: 12),
             Expanded( // <-- yeh important hai
               child: TextField(
@@ -31,12 +32,12 @@ class InputField extends StatelessWidget {
                 decoration: InputDecoration(
 
                   hintText: hintText,
-                  hintStyle: TextStyle(color: Colors.grey[500]),
+                  hintStyle: TextStyle(color:isDarkMode?Colors.white : Colors.grey[500]),
                   border: InputBorder.none,
                   isDense: true,
                   contentPadding: const EdgeInsets.symmetric(vertical: 14),
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),),
+                    borderSide: BorderSide(color:isDarkMode?Colors.white :Theme.of(context).colorScheme.primary),),
 
                     focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary),

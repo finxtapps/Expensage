@@ -140,7 +140,7 @@ class _PopupGrowScreenState extends State<PopupGrowScreen>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500), //1500
+      duration: const Duration(milliseconds: 1100), //1500
       reverseDuration: const Duration(milliseconds: 700),
     );
 

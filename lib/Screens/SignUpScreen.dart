@@ -66,12 +66,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               Expanded(
-                child: SignUpForm(
-                  formKey: _formKey,
-                  fullNameController: _fullNameController,
-                  emailController: _emailController,
-                  passwordController: _passwordController,
-                  phoneController: _phoneController,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(MediaQuery.of(context).size.width * .25),
+                      topRight: Radius.circular(MediaQuery.of(context).size.width * .25),
+                    ),
+                    color:isDarkMode
+                        ? Theme.of(context).colorScheme.secondary
+                        : Colors.white.withOpacity(.1),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 3.0),
+                    child: SignUpForm(
+                      formKey: _formKey,
+                      fullNameController: _fullNameController,
+                      emailController: _emailController,
+                      passwordController: _passwordController,
+                      phoneController: _phoneController,
+                    ),
+                  ),
                 ),
               ),
             ],

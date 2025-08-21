@@ -14,7 +14,7 @@ class TransactionTimeFilterDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final List<String> options = ['Lifetime', 'Weekly', 'Monthly', 'Yearly', 'Date'];
+    final List<String> options = ['Lifetime', 'Weekly', 'Monthly', 'Yearly',];
 
     return Container(
       height: MediaQuery.of(context).size.width * 0.07,
