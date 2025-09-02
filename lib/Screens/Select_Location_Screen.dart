@@ -38,8 +38,10 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
+      backgroundColor: isDarkMode ? Colors.black : Theme.of(context).scaffoldBackgroundColor,
       extendBodyBehindAppBar: true,
 
       body: Column(
@@ -102,7 +104,7 @@ class _LocationScreenState extends State<LocationScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Text(
               "We require your area code and location for SMS registration confirmation.",
-              style: TextStyle(color: Colors.grey[600], fontSize: 13),
+              style: TextStyle(color:isDarkMode?Colors.black: Colors.grey[600], fontSize:isDarkMode?1: 13),
             ),
           ),
           Padding(
@@ -143,7 +145,7 @@ class _LocationScreenState extends State<LocationScreen> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color:isDarkMode?Colors.white: Colors.black,
                             ),
                           ),
                         ],
@@ -175,14 +177,14 @@ class _LocationScreenState extends State<LocationScreen> {
             padding: const EdgeInsets.all(10),
             child: Center(
               child: SizedBox(
-                width: MediaQuery.of(context).size.width*.5,
+                width: MediaQuery.of(context).size.width*.4,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    backgroundColor:isDarkMode?Color(0xFFD44D5C) :Theme.of(context).colorScheme.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 5),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                   ),
                   onPressed: () {
                     if (selectedCountry != null) {

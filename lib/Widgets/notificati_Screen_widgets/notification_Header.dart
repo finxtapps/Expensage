@@ -9,8 +9,6 @@ class NotificationHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final colorScheme = Theme.of(context).colorScheme;
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
       decoration: BoxDecoration(

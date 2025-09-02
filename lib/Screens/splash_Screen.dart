@@ -24,7 +24,6 @@ Navigator.pushReplacementNamed(context, '/landingpage');
   }
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       body: Container(

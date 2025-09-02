@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 
 import '../theme/header_Color.dart';
-import '../theme/theme_provider.dart';
+
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -16,8 +16,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    final colorScheme = Theme.of(context).colorScheme;
-    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       backgroundColor: isDarkMode ? Theme.of(context).colorScheme.primary :Theme.of(context).scaffoldBackgroundColor,
       body: Stack(

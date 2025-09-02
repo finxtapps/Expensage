@@ -23,7 +23,6 @@ import 'Screens/personal_information.dart';
 import 'Screens/profile_Information.dart';
 import 'Screens/setting_Screen.dart';
 import 'Screens/wrapper.dart';
-import 'Widgets/ExpenseScreenWidget/pie_chart.dart';
 import 'component/observer.dart';
 
 

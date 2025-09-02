@@ -23,7 +23,6 @@ class _NewBottomBarState extends State<NewBottomBar>
 
   @override
   Widget build(BuildContext context) {
-    double availableWidth = MediaQuery.of(context).size.width;
 
     return Stack(
       alignment: Alignment.bottomCenter,

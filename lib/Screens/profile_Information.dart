@@ -15,7 +15,6 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final int selectedIndex = ModalRoute.of(context)?.settings.arguments as int? ?? 0;
     return Scaffold(
       body: SingleChildScrollView(
 

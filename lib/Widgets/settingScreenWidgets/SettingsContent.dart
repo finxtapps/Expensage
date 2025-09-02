@@ -17,7 +17,6 @@ class SettingsContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final screenWidth = MediaQuery.of(context).size.width;
     return Expanded(
       child: Container(
         color:isDarkMode?Theme.of(context).primaryColor  :Color(0xFFF5F5F5),

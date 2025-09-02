@@ -32,7 +32,6 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final colorScheme = Theme.of(context).colorScheme;
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
@@ -64,20 +63,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 30.0,),
-              //   child: Container(
-              //     height: MediaQuery.of(context).size.height * 0.06,
-              //     decoration: BoxDecoration(
-              //       color: Colors.white.withOpacity(0.4),
-              //       borderRadius: BorderRadius.circular(20),
-              //       border: Border.all(
-              //         color: Colors.white.withOpacity(0.3),
-              //       ),
-              //
-              //     ),
-              //   ),
-              // ),
+
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
@@ -85,9 +71,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       topLeft: Radius.circular(MediaQuery.of(context).size.width * .25),
                       topRight: Radius.circular(MediaQuery.of(context).size.width * .25),
                     ),
-                    color:isDarkMode
-                        ? Theme.of(context).colorScheme.secondary
-                        : Colors.white.withOpacity(.1),
+                    color:!isDarkMode
+                        ? Colors.white.withOpacity(.1)
+                        : Theme.of(context).colorScheme.secondary,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 3.0),

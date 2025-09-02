@@ -12,8 +12,6 @@ class ProfileHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final colorScheme = Theme.of(context).colorScheme;
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Container(
@@ -58,7 +56,7 @@ class ProfileHeaderSection extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              const ProfileImageSection(),
+              const ProfileImageSection(title: 'User name',),
               // SizedBox(height: 5),
             ],
           ),

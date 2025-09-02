@@ -16,19 +16,20 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor:isDarkMode? Theme.of(context).colorScheme.primary: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor:isDarkMode? Theme.of(context).colorScheme.primary: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon:  Icon(Icons.arrow_back, color:isDarkMode? Colors.white: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title:  Text(
           'Notifications',
           style: TextStyle(
-            color: Colors.black,
+            color:isDarkMode? Colors.white: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 22,
           ),
@@ -43,9 +44,9 @@ class NotificationsScreen extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 16),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withOpacity(.2),
+                color:isDarkMode?Theme.of(context).scaffoldBackgroundColor: Theme.of(context).colorScheme.primary.withOpacity(.2),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.black12),
+                border: Border.all(color:isDarkMode? Colors.white: Colors.black12),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
