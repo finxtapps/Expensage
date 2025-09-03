@@ -93,7 +93,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
       context: context,
       initialDate: now,
       firstDate: DateTime(now.year - 2),
-      lastDate: DateTime(now.year + 1),
+      lastDate: now, // ✅ Future date disable
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -130,7 +130,6 @@ class _BarChartWidgetState extends State<BarChartWidget> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -138,114 +137,104 @@ class _BarChartWidgetState extends State<BarChartWidget> {
     final maxY = _getMaxY(chartData);
 
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        decoration: BoxDecoration(
-          color: isDarkMode
-              ? Theme.of(context).colorScheme.primary
-              : Colors.white,
-          borderRadius: BorderRadius.circular(12.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 1,
-              blurRadius: 10,
-              offset:  Offset(0, 2),
-            ),
-          ],
-        ),
-        child:Container(
-      padding: EdgeInsets.all(6.w),
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
       decoration: BoxDecoration(
+        color: isDarkMode ? Theme.of(context).colorScheme.primary : Colors.white,
         borderRadius: BorderRadius.circular(12.r),
-        color: isDarkMode
-            ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.primary.withOpacity(.2),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.grey.withOpacity(0.1),
-        //     spreadRadius: 1,
-        //     blurRadius: 10,
-        //     offset: const Offset(0, 2),
-        //   ),
-        // ],
-      ),
-      child: Column(
-        children: [
-          /// Header Row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'How much you spend?',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  color: isDarkMode ? Colors.white : Colors.black87,
-                ),
-              ),
-              TransactionTimeFilterDropdown(
-                selectedOption: selectedFilter,
-                onChanged: (newValue) async {
-                  if (newValue == 'Date') {
-                    await _pickDate();
-                  } else {
-                    setState(() {
-                      selectedDate = null;
-                      selectedFilter = newValue;
-                    });
-                  }
-                },
-              ),
-            ],
-          ),
-          SizedBox(height: 10.h),
-
-          /// Chart
-          SizedBox(
-            height: 250.h,
-            child: SfCartesianChart(
-              plotAreaBorderWidth: 0,
-              tooltipBehavior: _tooltipBehavior,
-              primaryXAxis: CategoryAxis(
-                majorGridLines: const MajorGridLines(width: 0),
-                labelRotation:
-                (selectedFilter == 'Monthly' || selectedFilter == 'Date')
-                    ? -45
-                    : 0,
-                labelStyle: TextStyle(
-                  color: isDarkMode ? Colors.white : Colors.black54,
-                  fontSize: 10.sp,
-                ),
-              ),
-              primaryYAxis: NumericAxis(
-                axisLine: const AxisLine(width: 0),
-                majorGridLines: const MajorGridLines(width: 0.3),
-                labelStyle: TextStyle(
-                  color: isDarkMode ? Colors.white : Colors.black54,
-                  fontSize: 10.sp,
-                ),
-                labelFormat: '\${value}',
-                interval: (maxY > 0)
-                    ? (maxY / 5).clamp(1, double.infinity)
-                    : 1,
-                maximum: (maxY > 0) ? maxY : 1000,
-              ),
-              series: <CartesianSeries<_ChartData, String>>[
-                ColumnSeries<_ChartData, String>(
-                  dataSource: chartData,
-                  xValueMapper: (_ChartData data, _) => data.day,
-                  yValueMapper: (_ChartData data, _) => data.amount,
-                  borderRadius: BorderRadius.circular(6.r),
-                  color: const Color(0xFFD44D5C),
-                  width: 0.6,
-                  animationDuration: 1200, // ✅ enable animation here
-                )
-              ],
-            ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: Offset(0, 2),
           ),
         ],
       ),
-    ));
+      child: Container(
+        padding: EdgeInsets.all(6.w),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.r),
+          color: isDarkMode
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.primary.withOpacity(.2),
+        ),
+        child: Column(
+          children: [
+            /// Header Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'How much you spend?',
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    color: isDarkMode ? Colors.white : Colors.black87,
+                  ),
+                ),
+                TransactionTimeFilterDropdown(
+                  selectedOption: selectedFilter,
+                  onChanged: (newValue) async {
+                    if (newValue == 'Date') {
+                      await _pickDate();
+                    } else {
+                      setState(() {
+                        selectedDate = null;
+                        selectedFilter = newValue;
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 10.h),
+
+            /// Chart
+            SizedBox(
+              height: 250.h,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                tooltipBehavior: _tooltipBehavior,
+                primaryXAxis: CategoryAxis(
+                  majorGridLines: const MajorGridLines(width: 0),
+                  labelRotation:
+                  (selectedFilter == 'Monthly' || selectedFilter == 'Date')
+                      ? -45
+                      : 0,
+                  labelStyle: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black54,
+                    fontSize: 10.sp,
+                  ),
+                ),
+                primaryYAxis: NumericAxis(
+                  axisLine: const AxisLine(width: 0),
+                  majorGridLines: const MajorGridLines(width: 0.3),
+                  labelStyle: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black54,
+                    fontSize: 10.sp,
+                  ),
+                  labelFormat: '\${value}',
+                  interval:
+                  (maxY > 0) ? (maxY / 5).clamp(1, double.infinity) : 1,
+                  maximum: (maxY > 0) ? maxY : 1000,
+                ),
+                series: <CartesianSeries<_ChartData, String>>[
+                  ColumnSeries<_ChartData, String>(
+                    dataSource: chartData,
+                    xValueMapper: (_ChartData data, _) => data.day,
+                    yValueMapper: (_ChartData data, _) => data.amount,
+                    borderRadius: BorderRadius.circular(6.r),
+                    color: const Color(0xFFD44D5C),
+                    width: 0.6,
+                    animationDuration: 1200, // ✅ enable animation here
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -254,7 +243,6 @@ class _ChartData {
   final double amount;
   _ChartData(this.day, this.amount);
 }
-
 
 
 

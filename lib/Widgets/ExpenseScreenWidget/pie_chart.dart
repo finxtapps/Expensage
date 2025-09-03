@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:intl/intl.dart';
 import '../../component/time_filter.dart';
 
 class RadialChartWidget extends StatefulWidget {
@@ -14,16 +15,24 @@ class RadialChartWidget extends StatefulWidget {
 class _RadialChartWidgetState extends State<RadialChartWidget>
     with SingleTickerProviderStateMixin {
   String _selectedFilter = 'Lifetime';
+  DateTime? _selectedDate;
 
   late final AnimationController _controller;
   late final Animation<double> _animation;
 
+  /// Dummy chart data
   final Map<String, List<double>> _chartData = {
-    'Lifetime': [70, 55, 30,80],
-    'Weekly': [35, 63,25, 40],
-    'Monthly': [45, 30,69, 25],
-    'Yearly': [88,60, 15, 25],
-   // 'Date': [20, 50, 30,55],
+    'Lifetime': [70, 55, 30, 80],
+    'Weekly': [35, 63, 25, 40],
+    'Monthly': [45, 30, 69, 25],
+    'Yearly': [88, 60, 15, 25],
+  };
+
+  /// Dummy date-wise data
+  final Map<String, List<double>> _dateChartData = {
+    '2025-09-01': [40, 20, 70, 50],
+    '2025-09-02': [55, 45, 30, 80],
+    '2025-09-03': [65, 25, 50, 40],
   };
 
   final List<Color> _colors = [
@@ -31,7 +40,6 @@ class _RadialChartWidgetState extends State<RadialChartWidget>
     Colors.green,
     Colors.purple,
     Colors.pink,
-
   ];
 
   @override
@@ -62,8 +70,16 @@ class _RadialChartWidgetState extends State<RadialChartWidget>
     _controller.forward(from: 0);
   }
 
-  List<_ChartData> _getChartData(String filter) {
-    final values = _chartData[filter]!;
+  List<_ChartData> _getChartData() {
+    List<double> values = [];
+
+    if (_selectedFilter == 'Date' && _selectedDate != null) {
+      final key = DateFormat('yyyy-MM-dd').format(_selectedDate!);
+      values = _dateChartData[key] ?? [0, 0, 0, 0];
+    } else {
+      values = _chartData[_selectedFilter]!;
+    }
+
     return List.generate(values.length, (i) {
       double animatedValue = values[i] * _animation.value;
       if (animatedValue < 0.1) animatedValue = 0.1;
@@ -75,6 +91,59 @@ class _RadialChartWidgetState extends State<RadialChartWidget>
     });
   }
 
+  /// ✅ Custom Date Picker
+  Future<void> _pickDate() async {
+    DateTime now = DateTime.now();
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: DateTime(now.year - 2),
+      lastDate: now, // ✅ Future date disable
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: isDarkMode
+                ? ColorScheme.dark(
+              primary: Colors.orange, // ✅ current date highlight
+              onPrimary: Colors.white, // ✅ text color on highlighted date
+              surface: Colors.grey[900]!,
+              onSurface: Colors.white, // ✅ default text
+            )
+                : ColorScheme.light(
+              primary: Theme.of(context).colorScheme.primary,
+              onPrimary: Colors.white,
+              onSurface: Colors.black87,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: isDarkMode
+                    ? Colors.white // ✅ OK/Cancel button text white in dark mode
+                    : Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      setState(() {
+        _selectedDate = picked;
+        _selectedFilter = 'Date';
+        _startAnimation();
+      });
+    } else {
+      // Cancel karne par Lifetime default
+      setState(() {
+        _selectedFilter = 'Lifetime';
+        _selectedDate = null;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -82,7 +151,7 @@ class _RadialChartWidgetState extends State<RadialChartWidget>
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, _) {
-        final chartData = _getChartData(_selectedFilter);
+        final chartData = _getChartData();
 
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -96,7 +165,7 @@ class _RadialChartWidgetState extends State<RadialChartWidget>
                 color: Colors.grey.withOpacity(0.1),
                 spreadRadius: 1,
                 blurRadius: 10,
-                offset:  Offset(0, 2),
+                offset: const Offset(0, 2),
               ),
             ],
           ),
@@ -124,11 +193,16 @@ class _RadialChartWidgetState extends State<RadialChartWidget>
                         ),
                         TransactionTimeFilterDropdown(
                           selectedOption: _selectedFilter,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedFilter = value;
-                              _startAnimation();
-                            });
+                          onChanged: (value) async {
+                            if (value == 'Date') {
+                              await _pickDate(); // ✅ ab custom function call
+                            } else {
+                              setState(() {
+                                _selectedFilter = value;
+                                _selectedDate = null;
+                                _startAnimation();
+                              });
+                            }
                           },
                         ),
                       ],
@@ -147,7 +221,7 @@ class _RadialChartWidgetState extends State<RadialChartWidget>
                                 endAngle: 360,
                                 showTicks: false,
                                 showLabels: false,
-                                radiusFactor: 0.9 - (i * 0.13), // inner rings smaller
+                                radiusFactor: 0.9 - (i * 0.13),
                                 axisLineStyle: AxisLineStyle(
                                   thickness: 8.r,
                                   color: isDarkMode
@@ -199,6 +273,235 @@ class _ChartData {
   final double value;
   final Color color;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:syncfusion_flutter_gauges/gauges.dart';
+// import '../../component/time_filter.dart';
+//
+// class RadialChartWidget extends StatefulWidget {
+//   final bool active;
+//   const RadialChartWidget({super.key, this.active = false});
+//
+//   @override
+//   State<RadialChartWidget> createState() => _RadialChartWidgetState();
+// }
+//
+// class _RadialChartWidgetState extends State<RadialChartWidget>
+//     with SingleTickerProviderStateMixin {
+//   String _selectedFilter = 'Lifetime';
+//
+//   late final AnimationController _controller;
+//   late final Animation<double> _animation;
+//
+//   final Map<String, List<double>> _chartData = {
+//     'Lifetime': [70, 55, 30,80],
+//     'Weekly': [35, 63,25, 40],
+//     'Monthly': [45, 30,69, 25],
+//     'Yearly': [88,60, 15, 25],
+//    // 'Date': [20, 50, 30,55],
+//   };
+//
+//   final List<Color> _colors = [
+//     Colors.blue,
+//     Colors.green,
+//     Colors.purple,
+//     Colors.pink,
+//
+//   ];
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _controller = AnimationController(
+//       vsync: this,
+//       duration: const Duration(milliseconds: 1500),
+//     );
+//     _animation = CurvedAnimation(
+//       parent: _controller,
+//       curve: Curves.easeOutCubic,
+//     );
+//     WidgetsBinding.instance.addPostFrameCallback((_) {
+//       if (widget.active) _startAnimation();
+//     });
+//   }
+//
+//   @override
+//   void didUpdateWidget(covariant RadialChartWidget oldWidget) {
+//     super.didUpdateWidget(oldWidget);
+//     if (widget.active && !oldWidget.active) {
+//       _startAnimation();
+//     }
+//   }
+//
+//   void _startAnimation() {
+//     _controller.forward(from: 0);
+//   }
+//
+//   List<_ChartData> _getChartData(String filter) {
+//     final values = _chartData[filter]!;
+//     return List.generate(values.length, (i) {
+//       double animatedValue = values[i] * _animation.value;
+//       if (animatedValue < 0.1) animatedValue = 0.1;
+//       return _ChartData(
+//         'Category ${i + 1}',
+//         animatedValue,
+//         _colors[i % _colors.length],
+//       );
+//     });
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+//
+//     return AnimatedBuilder(
+//       animation: _animation,
+//       builder: (context, _) {
+//         final chartData = _getChartData(_selectedFilter);
+//
+//         return Container(
+//           padding: EdgeInsets.symmetric(horizontal: 10.w),
+//           decoration: BoxDecoration(
+//             color: isDarkMode
+//                 ? Theme.of(context).colorScheme.primary
+//                 : Colors.white,
+//             borderRadius: BorderRadius.circular(12.r),
+//             boxShadow: [
+//               BoxShadow(
+//                 color: Colors.grey.withOpacity(0.1),
+//                 spreadRadius: 1,
+//                 blurRadius: 10,
+//                 offset:  Offset(0, 2),
+//               ),
+//             ],
+//           ),
+//           child: Column(
+//             children: [
+//               Container(
+//                 height: 260.h,
+//                 padding: EdgeInsets.all(6.w),
+//                 decoration: BoxDecoration(
+//                   color: Theme.of(context).colorScheme.primary.withOpacity(.2),
+//                   borderRadius: BorderRadius.circular(12.r),
+//                 ),
+//                 child: Column(
+//                   children: [
+//                     Row(
+//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                       children: [
+//                         Text(
+//                           'Categories',
+//                           style: TextStyle(
+//                             fontSize: 18.sp,
+//                             fontWeight: FontWeight.w600,
+//                             color: isDarkMode ? Colors.white : Colors.black87,
+//                           ),
+//                         ),
+//                         TransactionTimeFilterDropdown(
+//                           selectedOption: _selectedFilter,
+//                           onChanged: (value) {
+//                             setState(() {
+//                               _selectedFilter = value;
+//                               _startAnimation();
+//                             });
+//                           },
+//                         ),
+//                       ],
+//                     ),
+//                     SizedBox(height: 10.h),
+//                     Expanded(
+//                       child: Stack(
+//                         alignment: Alignment.center,
+//                         children: [
+//                           SfRadialGauge(
+//                             axes: List.generate(chartData.length, (i) {
+//                               return RadialAxis(
+//                                 minimum: 0,
+//                                 maximum: 100,
+//                                 startAngle: 0,
+//                                 endAngle: 360,
+//                                 showTicks: false,
+//                                 showLabels: false,
+//                                 radiusFactor: 0.9 - (i * 0.13), // inner rings smaller
+//                                 axisLineStyle: AxisLineStyle(
+//                                   thickness: 8.r,
+//                                   color: isDarkMode
+//                                       ? Colors.white12
+//                                       : Colors.grey[300],
+//                                   cornerStyle: CornerStyle.bothCurve,
+//                                 ),
+//                                 pointers: [
+//                                   RangePointer(
+//                                     value: chartData[i].value,
+//                                     cornerStyle: CornerStyle.bothCurve,
+//                                     width: 8.r,
+//                                     color: chartData[i].color,
+//                                     enableAnimation: true,
+//                                     animationDuration: 900,
+//                                   )
+//                                 ],
+//                               );
+//                             }),
+//                           ),
+//                           Center(
+//                             child: Text(
+//                               '-\$4500',
+//                               style: TextStyle(
+//                                 fontSize: 20.sp,
+//                                 fontWeight: FontWeight.bold,
+//                                 color: const Color(0xFFE57373),
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                     SizedBox(height: 5.h),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
+//
+// class _ChartData {
+//   _ChartData(this.category, this.value, this.color);
+//   final String category;
+//   final double value;
+//   final Color color;
+// }
 
 
 
