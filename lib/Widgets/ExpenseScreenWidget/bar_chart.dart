@@ -87,11 +87,39 @@ class _BarChartWidgetState extends State<BarChartWidget> {
   /// 🔥 Date picker for "Date" filter
   Future<void> _pickDate() async {
     DateTime now = DateTime.now();
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: now,
       firstDate: DateTime(now.year - 2),
       lastDate: DateTime(now.year + 1),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: isDarkMode
+                ? ColorScheme.dark(
+              primary: Colors.orange, // ✅ current date highlight
+              onPrimary: Colors.white, // ✅ text color on highlighted date
+              surface: Colors.grey[900]!,
+              onSurface: Colors.white, // ✅ default text
+            )
+                : ColorScheme.light(
+              primary: Theme.of(context).colorScheme.primary,
+              onPrimary: Colors.white,
+              onSurface: Colors.black87,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: isDarkMode
+                    ? Colors.white // ✅ OK/Cancel button text white in dark mode
+                    : Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null) {
@@ -101,6 +129,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

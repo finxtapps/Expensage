@@ -37,6 +37,7 @@ class _MpinScreenState extends State<MpinScreen> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     final defaultPinTheme = PinTheme(
       width: 56,
@@ -47,12 +48,13 @@ class _MpinScreenState extends State<MpinScreen> {
         fontWeight: FontWeight.bold,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color:isDarkMode?Theme.of(context).scaffoldBackgroundColor : Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(12),
       ),
     );
 
     return Scaffold(
+      backgroundColor:isDarkMode ? Colors.black : Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           Container(
@@ -84,11 +86,11 @@ class _MpinScreenState extends State<MpinScreen> {
                       ),
                     ),
                     const SizedBox(width: 20),
-                    const Text(
-                      'Settings',
+                     Text(
+                      'Create your four digit pin',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 28,
+                        fontSize:MediaQuery.of(context).size.width*.065,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -117,7 +119,7 @@ class _MpinScreenState extends State<MpinScreen> {
                   defaultPinTheme: defaultPinTheme,
                   focusedPinTheme: defaultPinTheme.copyWith(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
+                      color:isDarkMode? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).colorScheme.primary,
                       border: Border.all(
                           color: Theme.of(context).colorScheme.secondary,
                           width: 2),
@@ -144,9 +146,9 @@ class _MpinScreenState extends State<MpinScreen> {
                   defaultPinTheme: defaultPinTheme,
                   focusedPinTheme: defaultPinTheme.copyWith(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
+                      color:isDarkMode?Theme.of(context).scaffoldBackgroundColor : Theme.of(context).colorScheme.primary,
                       border: Border.all(
-                          color: Theme.of(context).colorScheme.secondary,
+                          color:isDarkMode?Theme.of(context).scaffoldBackgroundColor : Theme.of(context).colorScheme.secondary,
                           width: 2),
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -166,7 +168,7 @@ class _MpinScreenState extends State<MpinScreen> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
+              backgroundColor:isDarkMode?Color(0xFFD44D5C) : Theme.of(context).colorScheme.primary,
               padding:
               const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
               shape: RoundedRectangleBorder(

@@ -36,144 +36,174 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    return Container(
-      margin: const EdgeInsets.only(top: 10),
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? Theme.of(context).colorScheme.primary
-            : Colors.white,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40),
-              topRight: Radius.circular(40),
-            ),
-            border: Border.all(
-              color:isDarkMode? Color(0xFFD44D5C) : Colors.transparent,
-              width: 4,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 15),
-            child: Form(
-            key: widget.formKey,
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                _buildInputField(
-                  controller: widget.fullNameController,
-                  hintText: 'Full name',
-                  icon: Icons.person_outline,
-                ),
-                const SizedBox(height: 10),
-                _buildInputField(
-                  controller: widget.emailController,
-                  hintText: 'Email',
-                  icon: Icons.email_outlined,
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                const SizedBox(height: 10),
-                _buildInputField(
-                  controller: widget.passwordController,
-                  hintText: 'Password',
-                  icon: Icons.lock_outline,
-                  obscureText: true,
-                ),
-                const SizedBox(height: 10),
-                _buildInputField(
-                  controller: widget.phoneController,
-                  hintText: 'Phone number',
-                  icon: Icons.phone_outlined,
-                  keyboardType: TextInputType.phone,
-                ),
-                const SizedBox(height: 10),
-                _buildGenderDropdown(),
-                const SizedBox(height: 10),
-                _buildCurrencyDropdown(), // 🔹 Currency Dropdown Added
-                const SizedBox(height: 30),
-                _buildSignUpButton(context),
-                const SizedBox(height: 25),
-                _buildDivider(),
-                const SizedBox(height: 25),
-                _buildSocialButtons(context),
-              ],
-            ),
+    return SingleChildScrollView(
+      child: Container(
+        margin: const EdgeInsets.only(top: 10),
+        decoration: BoxDecoration(
+          color: isDarkMode
+              ? Theme.of(context).colorScheme.primary
+              : Colors.white,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
           ),
         ),
-      ),
-    ));
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40),
+                topRight: Radius.circular(40),
+              ),
+              border: Border.all(
+                color:isDarkMode? Color(0xFFD44D5C) : Colors.transparent,
+                width: 4,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 15),
+              child: Form(
+              key: widget.formKey,
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  _buildInputField(
+                    controller: widget.fullNameController,
+                    hintText: 'Full name',
+                    icon: Icons.person_outline,
+                  ),
+                  const SizedBox(height: 10),
+                  _buildInputField(
+                    controller: widget.emailController,
+                    hintText: 'Email',
+                    icon: Icons.email_outlined,
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 10),
+                  _buildInputField(
+                    controller: widget.passwordController,
+                    hintText: 'Password',
+                    icon: Icons.lock_outline,
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 10),
+                  _buildInputField(
+                    controller: widget.phoneController,
+                    hintText: 'Phone number',
+                    icon: Icons.phone_outlined,
+                    keyboardType: TextInputType.phone,
+                  ),
+                  const SizedBox(height: 10),
+                  _buildGenderDropdown(),
+                  const SizedBox(height: 10),
+                  _buildCurrencyDropdown(), // 🔹 Currency Dropdown Added
+                  const SizedBox(height: 25),
+                  _buildSignUpButton(context),
+                  const SizedBox(height: 20),
+                  _buildDivider(),
+                  const SizedBox(height: 20),
+                  _buildSocialButtons(context),
+                ],
+              ),
+            ),
+          ),
+        ),
+      )),
+    );
   }
 
   // ------------------ Currency Dropdown ------------------
   Widget _buildCurrencyDropdown() {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    return Container(
-      height: MediaQuery.of(context).size.width * .12,
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? Theme.of(context).scaffoldBackgroundColor
-            : Colors.grey[50],
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: Colors.grey[400]!,
-          width: 1.5,
-        ),
-      ),
-      child: InkWell(
-        onTap: () {
-          showCurrencyPicker(
-            context: context,
-            showFlag: true,
-            showCurrencyName: true,
-            showCurrencyCode: true,
-            onSelect: (Currency currency) {
-              setState(() {
-                _selectedCurrency = currency;
-              });
-            },
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Row(
-            children: [
-              Icon(
-                Icons.monetization_on_outlined,
+
+    return FormField<Currency>(
+      validator: (value) {
+        if (_selectedCurrency == null) {
+          return "Please select currency";
+        }
+        return null;
+      },
+      builder: (FormFieldState<Currency> field) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.width * .12,
+              decoration: BoxDecoration(
                 color: isDarkMode
-                    ? Colors.white
-                    : Theme.of(context).colorScheme.primary,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  _selectedCurrency == null
-                      ? "Select Currency"
-                      : "${countryCodeToEmoji(_selectedCurrency!.code.substring(0, 2))}  ${_selectedCurrency!.code} - ${_selectedCurrency!.name}",
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: _selectedCurrency == null
-                        ? Colors.grey[600]
-                        : isDarkMode
-                        ? Colors.white
-                        : Colors.black,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+                    ? Theme.of(context).scaffoldBackgroundColor
+                    : Colors.grey[50],
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color:  Colors.grey[400]!,
+                  width: 1.5,
                 ),
               ),
-              const Icon(Icons.arrow_drop_down, color: Colors.grey),
-            ],
-          ),
-        ),
-      ),
+              child: InkWell(
+                onTap: () {
+                  showCurrencyPicker(
+                    context: context,
+                    showFlag: true,
+                    showCurrencyName: true,
+                    showCurrencyCode: true,
+                    onSelect: (Currency currency) {
+                      _selectedCurrency = currency;
+                      field.didChange(currency); // update karega aur error hata dega
+                    },
+                  );
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: MediaQuery.of(context).size.width * .02,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.monetization_on_outlined,
+                        color: isDarkMode
+                            ? Colors.white
+                            : Theme.of(context).colorScheme.primary,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          _selectedCurrency == null
+                              ? "Select Currency"
+                              : "${countryCodeToEmoji(_selectedCurrency!.code.substring(0, 2))}  ${_selectedCurrency!.code} - ${_selectedCurrency!.name}",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: _selectedCurrency == null
+                                ? (isDarkMode ? Colors.white : Colors.grey[600])
+                                : (isDarkMode ? Colors.white : Colors.black),
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Icon(Icons.arrow_drop_down, color: Colors.grey[400]!),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            if (field.hasError)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
+                child: Text(
+                  field.errorText!,
+                  style: const TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
+
+
+
+
 
   // ------------------ Existing Code (Gender + Inputs + Buttons) ------------------
   Widget _buildGenderDropdown() {

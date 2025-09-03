@@ -9,8 +9,10 @@ class SetPinAndFingerprintScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
+      backgroundColor: isDarkMode ? Colors.black : Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           Container(
@@ -56,6 +58,11 @@ class SetPinAndFingerprintScreen extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(
+            child: Divider(
+              color: isDarkMode ? Colors.white : Colors.transparent,
+            ),
+          ),
           InkWell(
             onTap: (){
               Navigator.pushNamed(context, '/pin');
@@ -86,6 +93,7 @@ class SetPinAndFingerprintScreen extends StatelessWidget {
     required String subtitle,
     required IconData icon,
   }){
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding:  EdgeInsets.symmetric(
           horizontal:MediaQuery.of(context).size.width*.1,
@@ -100,7 +108,7 @@ class SetPinAndFingerprintScreen extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title,style: TextStyle(color: Colors.black,fontSize: 32,fontWeight: FontWeight.bold),),
+                    Text(title,style: TextStyle(color:isDarkMode?Colors.white: Colors.black,fontSize: 32,fontWeight: FontWeight.bold),),
                     Text(subtitle,style: TextStyle(color: Colors.grey,fontSize: 16,fontWeight: FontWeight.bold),),
                   ],
                 ),
